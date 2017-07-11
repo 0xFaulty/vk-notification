@@ -7,6 +7,11 @@ import com.defaulty.notivk.gui.service.Design;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ContainerAdapter;
+import java.awt.event.ContainerEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 public class RightPosts {
 
@@ -31,11 +36,12 @@ public class RightPosts {
         headerPanel.setBorder(design.getBorderTopBottom());
 
         addPanel.setLayout(new BoxLayout(addPanel, BoxLayout.PAGE_AXIS));
-        rightPostsScroll = new JScrollPane(addPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        //rightPostsScroll = new JScrollPane(addPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        //rightPostsScroll = new JScrollPane(addPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        rightPostsScroll = new JScrollPane(addPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         rightPostsScroll.getVerticalScrollBar().setUnitIncrement(design.getScrollUnitIncrement());
         Border border = BorderFactory.createLineBorder(design.getBorderColor(), 0, true);
         rightPostsScroll.setBorder(border);
+        rightPostsScroll.addPropertyChangeListener(evt -> GUI.getInstance().resizePanels());
 
         mainPanel.setBorder(design.getBorderSmall());
         mainPanel.setLayout(new BorderLayout());
@@ -50,7 +56,7 @@ public class RightPosts {
         int max = rightPostsScroll.getHorizontalScrollBar().getMaximum();
         int width = GUI.getInstance().getWidth();
         int lwidth = mainPanel.getWidth();
-        int scrollPos = max / 2 - (width - lwidth) / 2 + 12;
+        int scrollPos = max / 2 - (width - lwidth) / 2 - 170;
         rightPostsScroll.getHorizontalScrollBar().setValue(scrollPos);
     }
 

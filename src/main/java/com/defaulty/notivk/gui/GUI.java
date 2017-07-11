@@ -118,9 +118,9 @@ public class GUI extends JFrame {
     public void addPostFromResponse(ArrayList<GetResponse> response, List<GroupFull> groupFullList) {
         panelController.addPosts(response, groupFullList);
         addPosts();
-        resizePanels();
         System.out.println("GUI:addPostFromResponse");
         rightUpdate.setVisible(false);
+        resizePanels();
     }
 
     private void addPosts() {
@@ -191,7 +191,7 @@ public class GUI extends JFrame {
         leftMenu.updateUI();
     }
 
-    private void resizePanels() {
+    public void resizePanels() {
         int width = getWidth();
         int height = getHeight();
 
@@ -203,7 +203,7 @@ public class GUI extends JFrame {
         int rightHeight = height - headerPostHeight - 5;
 
         //if (lastWidth != rightWidth + width || lastHeight != rightHeight + height) {
-        System.out.println("resize");
+        //System.out.println("resize");
         rightUpdate.setBounds(0, headerPostHeight, rightWidth, rightHeight - headerPostHeight);
         rightPosts.setBounds(0, 0, rightWidth, rightHeight);
         rightGroups.setBounds(0, 0, rightWidth, rightHeight);

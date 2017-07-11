@@ -86,10 +86,10 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
 
     public void setSize(int width, int height) {
         width = width - 10;
-        if (postText.getSize().getHeight() > 0 && postText.getSize().getWidth() > 0)
+/*        if (postText.getSize().getHeight() > 0 && postText.getSize().getWidth() > 0)
             postText.setPreferredSize(postText.getSize());
         if (photoPanel.getSize().getHeight() > 0 && photoPanel.getSize().getWidth() > 0)
-            photoPanel.setPreferredSize(photoPanel.getSize());
+            photoPanel.setPreferredSize(photoPanel.getSize());*/
         mainPanel.setMaximumSize(new Dimension(width, Integer.MAX_VALUE));
         mainPanel.setSize(new Dimension(width, height));
     }
