@@ -1,0 +1,24 @@
+<?xml version = '1.0'?>
+<app-settings>
+ <properties>
+  <property key="tagEnabled:club10">false</property>
+  <property key="tagEnabled:club11">false</property>
+  <property key="tagEnabled:club5">false</property>
+  <property key="tagEnabled:mystatham">false</property>
+  <property key="tagEnabled:club6">false</property>
+  <property key="accessToken">8459215d96e63d41105336add3f1f41e02a03e665a1c3e1c1f3f902664a917199f9f5de4fb295cf075fa3</property>
+  <property key="tagEnabled:club3">false</property>
+  <property key="userId">30535790</property>
+  <property key="tagEnabled:club4">false</property>
+  <property key="enableNotify">true</property>
+  <property key="tagEnabled:club149081239">false</property>
+  <property key="tagEnabled:club2">false</property>
+  <property key="tagEnabled:club9">false</property>
+  <property key="savedGroups">pikabu|apiclub|mystatham|</property>
+  <property key="tagEnabled:apiclub">false</property>
+  <property key="tagEnabled:grvps">false</property>
+  <property key="groupTags:apiclub">lol,</property>
+  <property key="tagEnabled:pikabu">false</property>
+  <property key="groupTags:pikabu">пост,</property>
+ </properties>
+</app-settings>
