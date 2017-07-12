@@ -1,12 +1,15 @@
 <?xml version = '1.0'?>
 <app-settings>
  <properties>
-  <property key="savedGroups">pikabu|apiclub|grvps|</property>
+  <property key="tagEnabled:mzk">false</property>
+  <property key="savedGroups">pikabu|apiclub|grvps|science_technology|mzk|</property>
   <property key="tagEnabled:apiclub">false</property>
   <property key="tagEnabled:grvps">false</property>
   <property key="accessToken">6d155707780271211ffaca9386b5eab370da4add591f7d547ac4459f1043bd4edcc4fb0eb349043142683</property>
+  <property key="tagEnabled:sci">false</property>
   <property key="userId">437238811</property>
   <property key="tagEnabled:pikabu">false</property>
   <property key="enableNotify">true</property>
+  <property key="tagEnabled:science_technology">false</property>
  </properties>
 </app-settings>
