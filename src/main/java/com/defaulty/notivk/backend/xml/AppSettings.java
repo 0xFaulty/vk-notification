@@ -83,7 +83,7 @@ public final class AppSettings {
   public static void put(String key, Object data) {
     //prevent null values. Hasmap allow them
     if (data == null) {
-      throw new IllegalArgumentException();
+      throw new IllegalArgumentException("Try put null value");
     } else {
       SINGLETON.fHashMap.put(key, data);
     }
@@ -94,7 +94,7 @@ public final class AppSettings {
     DocumentBuilder builder = factory.newDocumentBuilder();
     Document doc = builder.parse(file);
     if (doc == null) {
-      throw new NullPointerException();
+      throw new NullPointerException("File not found");
     }
     NodeList propertiesNL = doc.getDocumentElement().getChildNodes();
     if (propertiesNL != null) {

@@ -32,10 +32,7 @@ public class PopupPanel {
         );
         centerPanel.getVerticalScrollBar().setUnitIncrement(design.getScrollUnitIncrement());
 
-        JButton closeButton = new ButtonConstructor().getSimpleButton(
-                "Закрыть",
-                e -> frame.dispose()
-        );
+        JButton closeButton = new ButtonConstructor().getSimpleButton("Закрыть", e -> frame.dispose());
         JPanel wrapperPanel = new JPanel();
         wrapperPanel.setLayout(new BorderLayout());
         wrapperPanel.add(closeButton, BorderLayout.WEST);
@@ -47,9 +44,7 @@ public class PopupPanel {
 
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter() {
-            public void windowDeactivated(WindowEvent e) {
-                frame.setState(JFrame.NORMAL);
-            }
+            public void windowDeactivated(WindowEvent e) { frame.setState(JFrame.NORMAL); }
         });
         Dimension sSize = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setLocation(sSize.width - formWidth, sSize.height - formHeight - 50);

@@ -6,16 +6,23 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class LinkMouseListener extends MouseAdapter {
+
+    private static Design design = Design.getInstance();
+    private ExecutePoint executePoint;
+
+    public LinkMouseListener(ExecutePoint executePoint) {
+        this.executePoint = executePoint;
+    }
+
     @Override
     public void mouseEntered(MouseEvent e) {
         if (!(e.getSource() instanceof JLabel)) {
             return;
         }
-        //JLabel label = (JLabel)e.getSource();
-        JPanel panel = (JPanel) e.getSource();
-        //label.setForeground(Color.RED);
+        JLabel label = (JLabel) e.getSource();
+        label.setForeground(design.getMaxthonColor());
         Cursor cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
-        panel.setCursor(cursor);
+        label.setCursor(cursor);
     }
 
     @Override
@@ -24,6 +31,12 @@ public class LinkMouseListener extends MouseAdapter {
             return;
         }
         JLabel label = (JLabel) e.getSource();
-        label.setForeground(Color.BLUE);
+        label.setForeground(design.getThirdForeColor());
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        super.mouseClicked(e);
+        executePoint.execute();
     }
 }

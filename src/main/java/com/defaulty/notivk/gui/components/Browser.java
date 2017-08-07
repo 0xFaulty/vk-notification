@@ -37,7 +37,7 @@ public class Browser {
 
     private void initAndShowGUI() {
         mainFrame = new JFrame("FX");
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         mainFrame.getContentPane().setLayout(new BorderLayout());
         final JFXPanel fxPanel = new JFXPanel();
         JButton jButton = new JButton();

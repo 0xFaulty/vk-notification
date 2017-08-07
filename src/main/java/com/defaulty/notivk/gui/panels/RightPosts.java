@@ -13,14 +13,9 @@ import java.awt.event.ContainerEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class RightPosts {
+public class RightPosts extends Panel{
 
-    private static Design design = Design.getInstance();
-
-    private JPanel addPanel = new JPanel();
-    private JPanel mainPanel = new JPanel();
-    private JPanel headerPanel = new JPanel();
-    private JScrollPane rightPostsScroll; //Фиксит то, что из-за TextLabel увеличивается размер формы
+    private JScrollPane rightPostsScroll;
 
     public JPanel getPanel() {
         JButton menuButton = new ButtonConstructor().getSimpleButton("|||", e -> GUI.getInstance().toggleMenuVisible());
@@ -36,12 +31,10 @@ public class RightPosts {
         headerPanel.setBorder(design.getBorderTopBottom());
 
         addPanel.setLayout(new BoxLayout(addPanel, BoxLayout.PAGE_AXIS));
-        //rightPostsScroll = new JScrollPane(addPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        rightPostsScroll = new JScrollPane(addPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        rightPostsScroll = new JScrollPane(addPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         rightPostsScroll.getVerticalScrollBar().setUnitIncrement(design.getScrollUnitIncrement());
         Border border = BorderFactory.createLineBorder(design.getBorderColor(), 0, true);
         rightPostsScroll.setBorder(border);
-        rightPostsScroll.addPropertyChangeListener(evt -> GUI.getInstance().resizePanels());
 
         mainPanel.setBorder(design.getBorderSmall());
         mainPanel.setLayout(new BorderLayout());
@@ -60,35 +53,4 @@ public class RightPosts {
         rightPostsScroll.getHorizontalScrollBar().setValue(scrollPos);
     }
 
-    public void setVisible(boolean visible) {
-        mainPanel.setVisible(visible);
-    }
-
-    public void add(JPanel panel) {
-        addPanel.add(panel);
-    }
-
-    public void removeAll() {
-        addPanel.removeAll();
-    }
-
-    public void updateUI() {
-        addPanel.updateUI();
-    }
-
-    public int getWidth() {
-        return mainPanel.getWidth();
-    }
-
-    public int getHeight() {
-        return mainPanel.getHeight();
-    }
-
-    public int getHeaderHeight() {
-        return headerPanel.getHeight();
-    }
-
-    public void setBounds(int x, int y, int width, int height) {
-        mainPanel.setBounds(x, y, width, height);
-    }
 }

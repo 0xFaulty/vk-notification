@@ -7,15 +7,9 @@ import com.defaulty.notivk.gui.service.Design;
 import javax.swing.*;
 import java.awt.*;
 
-public class RightSettings {
+public class RightSettings extends Panel {
 
     private static SettingsWrapper settings = SettingsWrapper.getInstance();
-    private static Design design = Design.getInstance();
-
-    private JPanel addPanel = new JPanel();
-    private JPanel mainPanel = new JPanel();
-    private JPanel headerPanel = new JPanel();
-
     private JCheckBox notifyCheckBox = new JCheckBox();
 
     public JPanel getPanel() {
@@ -53,31 +47,4 @@ public class RightSettings {
         return mainPanel;
     }
 
-    public void setVisible(boolean visible) {
-        mainPanel.setVisible(visible);
-    }
-
-    public void add(JPanel panel) {
-        addPanel.add(panel);
-    }
-
-    public void removeAll() {
-        addPanel.removeAll();
-    }
-
-    public void updateUI() {
-        addPanel.updateUI();
-    }
-
-    public int getWidth() {
-        return mainPanel.getWidth();
-    }
-
-    public int getHeight() {
-        return mainPanel.getHeight();
-    }
-
-    public void setBounds(int x, int y, int width, int height) {
-        mainPanel.setBounds(x, y, width, height);
-    }
 }

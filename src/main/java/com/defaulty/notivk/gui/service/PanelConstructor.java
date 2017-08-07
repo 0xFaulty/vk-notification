@@ -24,8 +24,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class PanelConstructor implements Comparable<PanelConstructor> {
 
@@ -54,7 +55,7 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
     private JLabel postImage;
     private JLabel groupName;
     private JLabel groupLabel;
-    private JLabel postText;
+    private JTextArea postText;
 
     private PanelType panelType;
 
@@ -70,7 +71,7 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
         this.addToContentPanel = true;
     }
 
-    public JPanel getPanel(int width, int height) {
+    public JPanel getPanel() {
         CustomPanel mainPanelWrapper = new CustomPanel();
         mainPanelWrapper.setLayout(new BoxLayout(mainPanelWrapper, BoxLayout.Y_AXIS));
         mainPanelWrapper.setBubbleColor(design.getBackgroundColor());
@@ -84,14 +85,11 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
         return mainPanel;
     }
 
-    public void setSize(int width, int height) {
-        width = width - 10;
-/*        if (postText.getSize().getHeight() > 0 && postText.getSize().getWidth() > 0)
-            postText.setPreferredSize(postText.getSize());
-        if (photoPanel.getSize().getHeight() > 0 && photoPanel.getSize().getWidth() > 0)
-            photoPanel.setPreferredSize(photoPanel.getSize());*/
-        mainPanel.setMaximumSize(new Dimension(width, Integer.MAX_VALUE));
-        mainPanel.setSize(new Dimension(width, height));
+    public void setSize(int width) {
+        width = width - 50;
+        postText.setMaximumSize(new Dimension(width, Integer.MAX_VALUE));
+        postText.revalidate();
+        postText.repaint();
     }
 
     private void launchBrowser() {
@@ -118,7 +116,7 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
 
     @Override
     public int compareTo(@NotNull PanelConstructor o) {
-        return o.timeIdentifier - this.timeIdentifier;
+        return this.timeIdentifier - o.timeIdentifier;
     }
 
     public PanelConstructor(PanelType type) {
@@ -165,21 +163,19 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
         else {
             if (postFull.getAttachments() != null)
                 attachmentsParse(postFull.getAttachments().get(0), postFull.getText(), postText, postImage, size);
-            else
-                postText.setText(formatText(postFull.getText()));
-
         }
-        mainPanel.updateUI();
+        if (postText.getText().equals("") && postFull.getText() != null)
+            postText.setText(postFull.getText());
     }
 
-    private void parseWallPost(Wallpost post, String text, JLabel outText, JLabel outImage, Dimension size) {
+    private void parseWallPost(Wallpost post, String text, JTextArea outText, JLabel outImage, Dimension size) {
         List<WallpostAttachment> wpaList = post.getAttachments();
         if (wpaList != null && wpaList.size() > 0) {
             attachmentsParse(wpaList.get(0), text, outText, outImage, size);
         }
     }
 
-    private void attachmentsParse(WallpostAttachment wpa, String text, JLabel outText, JLabel outImage, Dimension size) {
+    private void attachmentsParse(WallpostAttachment wpa, String text, JTextArea outText, JLabel outImage, Dimension size) {
 
         String maxPhoto = null;
         String curText = "";
@@ -193,6 +189,9 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
         if (wpa.getType() == WallpostAttachmentType.PHOTO) {
             maxPhoto = getMaxPreview(wpa.getPhoto());
             curText = text + wpa.getPhoto().getText();
+        }
+        if (wpa.getType() == WallpostAttachmentType.ALBUM) {
+            maxPhoto = getMaxPreview(wpa.getAlbum().getThumb());
         }
         if (wpa.getType() == WallpostAttachmentType.DOC) {
             maxPhoto = getMaxPreview(wpa.getDoc());
@@ -224,7 +223,7 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
             }
         }
 
-        outText.setText(formatText(curText));
+        outText.setText(curText);
 
     }
 
@@ -239,7 +238,6 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
         }
         groupName.setText(groupFull.getName());
         groupLabel.setText(groupFull.getMembersCount() + " участников");
-        mainPanel.updateUI();
 
         groupId = groupFull.getId();
         groupNameId = groupFull.getScreenName();
@@ -255,7 +253,7 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
             if (postFull.getAttachments() != null)
                 attachmentsParse(postFull.getAttachments().get(0), postFull.getText(), postText, groupImage, size);
             else {
-                postText.setText(formatText(postFull.getText()));
+                postText.setText(postFull.getText());
             }
         }
 
@@ -271,7 +269,6 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
 
         groupName.setText(groupFull.getName());
         groupLabel.setText(convertTime(postFull.getDate()));
-        mainPanel.updateUI();
 
         idIdentifier = postFull.getId();
         groupId = groupFull.getId();
@@ -291,7 +288,6 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
             groupName.setText(userName);
             settings.setUserName(userName);
             groupLabel.setText(userXtrCounters.getId() + "");
-            mainPanel.updateUI();
         }
     }
 
@@ -327,29 +323,31 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
     private void initPostTemplate() {
         groupLabel.setFont(design.getSecondBoldFont());
         groupLabel.setForeground(design.getThirdForeColor());
-        textPanel = new CustomPanel();
-        photoPanel = new CustomPanel();
+        groupLabel.addMouseListener(new LinkMouseListener(this::launchBrowser));
+
         postImage = new JLabel();
         postImage.setBorder(design.getBorderLarge());
-        postText = new JLabel();
+
+        postText = new JTextArea();
+        postText.setWrapStyleWord(true);
+        postText.setLineWrap(true);
+        postText.setOpaque(false);
+        postText.setEditable(false);
+        postText.setFocusable(false);
         postText.setFont(design.getFirstFont());
         postText.setForeground(design.getFirstForeColor());
         postText.setBorder(design.getBorderLarge());
 
+        textPanel = new CustomPanel();
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
-        textPanel.add(postText, BorderLayout.CENTER);
+        textPanel.add(postText);
 
+        photoPanel = new CustomPanel();
         photoPanel.setLayout(new BoxLayout(photoPanel, BoxLayout.Y_AXIS));
         photoPanel.add(postImage);
 
         mainPanel.add(textPanel, BorderLayout.CENTER);
         mainPanel.add(photoPanel, BorderLayout.SOUTH);
-
-        mainPanel.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                if (e.getButton() == MouseEvent.BUTTON1) launchBrowser();
-            }
-        });
     }
 
     private void initGroupTemplate() {
@@ -359,9 +357,9 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
             mainPanel.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
                     if (e.getButton() == MouseEvent.BUTTON1) {
-                        GroupSettings groupSettings = new GroupSettings(groupNameId);
+                        GroupSettings groupSettings = new GroupSettings(groupId, groupName.getText());
                         groupSettings.pack();
-                        groupSettings.setLocationRelativeTo(null); //Центр экрана
+                        groupSettings.setLocationRelativeTo(null); //Screen center
                         groupSettings.setVisible(true);
                     }
                 }
@@ -383,67 +381,69 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
     private void initPopupTemplate() {
         groupLabel.setFont(design.getSecondBoldFont());
         groupLabel.setForeground(design.getThirdForeColor());
+        groupLabel.addMouseListener(new LinkMouseListener(this::launchBrowser));
+
         textPanel = new CustomPanel();
-        postText = new JLabel();
+        textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
+
+        postText = new JTextArea();
+        postText.setWrapStyleWord(true);
+        postText.setLineWrap(true);
+        postText.setOpaque(false);
+        postText.setEditable(false);
+        postText.setFocusable(false);
         postText.setFont(design.getFirstFont());
         postText.setForeground(design.getFirstForeColor());
         postText.setBorder(design.getBorderLarge());
 
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
-        textPanel.add(postText, BorderLayout.CENTER);
+        textPanel.add(postText);
 
         mainPanel.add(textPanel);
-        mainPanel.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                if (e.getButton() == MouseEvent.BUTTON1) launchBrowser();
-
-            }
-        });
     }
 
     private String getMaxPreview(Photo photo) {
-
         String str = null;
-        if (photo.getPhoto75() != null) str = photo.getPhoto75();
-        if (photo.getPhoto130() != null) str = photo.getPhoto130();
-        if (photo.getPhoto604() != null) str = photo.getPhoto604();
-        if (photo.getPhoto807() != null) str = photo.getPhoto807();
-        if (photo.getPhoto1280() != null) str = photo.getPhoto1280();
-        if (photo.getPhoto2560() != null) str = photo.getPhoto2560();
-
+        if (photo != null) {
+            if (photo.getPhoto75() != null) str = photo.getPhoto75();
+            if (photo.getPhoto130() != null) str = photo.getPhoto130();
+            if (photo.getPhoto604() != null) str = photo.getPhoto604();
+            if (photo.getPhoto807() != null) str = photo.getPhoto807();
+            if (photo.getPhoto1280() != null) str = photo.getPhoto1280();
+            if (photo.getPhoto2560() != null) str = photo.getPhoto2560();
+        }
         return str;
     }
 
     private String getMaxPreview(Video video) {
-
         String str = null;
-        if (video.getPhoto130() != null) str = video.getPhoto130();
-        if (video.getPhoto320() != null) str = video.getPhoto320();
-        if (video.getPhoto800() != null) str = video.getPhoto800();
-
+        if (video != null) {
+            if (video.getPhoto130() != null) str = video.getPhoto130();
+            if (video.getPhoto320() != null) str = video.getPhoto320();
+            if (video.getPhoto800() != null) str = video.getPhoto800();
+        }
         return str;
     }
 
     private String getMaxPreview(Graffiti graffiti) {
-
         String str = null;
-        if (graffiti.getPhoto200() != null) str = graffiti.getPhoto200();
-        if (graffiti.getPhoto586() != null) str = graffiti.getPhoto586();
-
+        if (graffiti != null) {
+            if (graffiti.getPhoto200() != null) str = graffiti.getPhoto200();
+            if (graffiti.getPhoto586() != null) str = graffiti.getPhoto586();
+        }
         return str;
     }
 
     private String getMaxPreview(Doc doc) {
-
         String str = null;
-
-        if (doc.getPreview().getPhoto().getSizes() != null) {
-            List<PhotoSizes> sizes = doc.getPreview().getPhoto().getSizes();
-            for (PhotoSizes size : sizes) {
-                str = size.getSrc();
+        if (doc != null) {
+            if (doc.getPreview().getPhoto().getSizes() != null) {
+                List<PhotoSizes> sizes = doc.getPreview().getPhoto().getSizes();
+                for (PhotoSizes size : sizes) {
+                    str = size.getSrc();
+                }
             }
         }
-
         return str;
     }
 
@@ -472,23 +472,6 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss z"); // the format of your date
         sdf.setTimeZone(TimeZone.getTimeZone("GMT+3")); // give a timezone reference for formating
         return sdf.format(date);
-    }
-
-    private String formatText(String str) {
-        String resStr;
-        /*
-        int splitSize = 60;
-        int endPos;
-        StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < str.length() - 1; i = i + splitSize) {
-            if (str.length() > i + splitSize) endPos = i + splitSize; else endPos = str.length();
-            sb.append(str.substring(i, endPos)).append("\n");
-        }
-        resStr = sb.toString();
-        */
-        resStr = str.replace("\n", "<br>");
-        resStr = "<html>" + resStr + "</html>";
-        return resStr;
     }
 
     public void setPanelColor(Color color) {

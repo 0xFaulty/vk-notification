@@ -2,11 +2,10 @@ package com.defaulty.notivk.backend;
 
 import com.defaulty.notivk.backend.xml.AppSettings;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import java.io.File;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -118,7 +117,7 @@ public class SettingsWrapper {
         return userData.getNotifyType();
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userData.getUserId();
     }
 
@@ -138,19 +137,14 @@ public class SettingsWrapper {
         return false;
     }
 
-    public void clearUserData() {
-        userData = new UserData();
-        groupDataList = new ArrayList<>();
-    }
-
     public void save() {
         updateState();
         saveSettings();
     }
 
     private void updateState() {
-        if (AppSettings.get(userId) != Integer.toString(userData.getUserId()))
-            AppSettings.put(userId, Integer.toString(userData.getUserId()));
+        if (AppSettings.get(userId) != userData.getUserId())
+            AppSettings.put(userId, userData.getUserId());
         if (AppSettings.get(accessToken) != userData.getAccessToken())
             AppSettings.put(accessToken, userData.getAccessToken());
         if (AppSettings.get(enableNotify) != userData.getNotifyType().toString())
@@ -191,42 +185,42 @@ public class SettingsWrapper {
     private void loadSettings() {
         String propDir = "./";
         File file = new File(propDir, "settings.xml");
-        int curIntVal;
-        String curStrVal;
+        String tmpStr1;
+        String tmpStr2;
 
         try {
             AppSettings.clear();
             AppSettings.load(file);
 
-            curIntVal = Integer.parseInt((String) AppSettings.get(userId));
-            curStrVal = (String) AppSettings.get(accessToken);
-            if (curIntVal != 0 && curStrVal != null)
-                userData = new UserData(curIntVal, curStrVal);
+            tmpStr1 = (String) AppSettings.get(userId);
+            tmpStr2 = (String) AppSettings.get(accessToken);
+            if (tmpStr1 != null && tmpStr2 != null)
+                userData = new UserData(tmpStr1, tmpStr2);
 
             if (userData != null) {
-                curStrVal = (String) AppSettings.get(enableNotify);
-                if (curStrVal != null)
-                    if (curStrVal.equals("true")) userData.setNotifyType(true);
+                tmpStr2 = (String) AppSettings.get(enableNotify);
+                if (tmpStr2 != null)
+                    if (tmpStr2.equals("true")) userData.setNotifyType(true);
                     else userData.setNotifyType(false);
             }
 
             if (groupDataList == null) groupDataList = new ArrayList<>();
 
-            curStrVal = (String) AppSettings.get(savedGroups);
-            if (curStrVal != null) {
-                List<String> curGroupList = parseToList(curStrVal, separator);
+            tmpStr2 = (String) AppSettings.get(savedGroups);
+            if (tmpStr2 != null) {
+                List<String> curGroupList = parseToList(tmpStr2, separator);
                 for (String group : curGroupList) {
                     GroupData groupData = new GroupData();
                     groupData.setGroupNameId(group);
-                    curStrVal = (String) AppSettings.get(tagEnabled + group);
-                    if (curStrVal != null) {
-                        if (curStrVal.equals("true"))
+                    tmpStr2 = (String) AppSettings.get(tagEnabled + group);
+                    if (tmpStr2 != null) {
+                        if (tmpStr2.equals("true"))
                             groupData.setEnableTags(true);
                         else
                             groupData.setEnableTags(false);
                     }
-                    curStrVal = (String) AppSettings.get(groupTags + group);
-                    if (curStrVal != null) groupData.setTags(parseToList(curStrVal, separator2));
+                    tmpStr2 = (String) AppSettings.get(groupTags + group);
+                    if (tmpStr2 != null) groupData.setTags(parseToList(tmpStr2, separator2));
 
                     groupDataList.add(groupData);
                 }

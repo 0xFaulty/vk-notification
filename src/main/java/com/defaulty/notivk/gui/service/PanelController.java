@@ -7,6 +7,7 @@ import com.vk.api.sdk.objects.wall.responses.GetResponse;
 import com.vk.api.sdk.objects.groups.GroupFull;
 import com.vk.api.sdk.objects.wall.WallpostFull;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class PanelController {
@@ -20,36 +21,46 @@ public class PanelController {
     }
 
     //Добавить новые и отсортировать
-    public void addPosts(ArrayList<GetResponse> getResponseArray, List<GroupFull> groupFull) {
+    public synchronized void addPosts(ArrayList<GetResponse> getResponseArray, List<GroupFull> groupFull) {
+        System.out.println("PanelController: addPosts START:" + getTime());
         boolean sortFlag = false;
         for (int i = 0; i < getResponseArray.size(); i++) {
             GetResponse aGetResponseArray = getResponseArray.get(i);
-            for (int j = 0; j < aGetResponseArray.getItems().size(); j++) {
-                boolean flag = false;
-                WallpostFull curPost = aGetResponseArray.getItems().get(j);
-                for (PanelConstructor panelConstructor : panelConstructors) {
-                    int curData = curPost.getDate();
-                    int curId = curPost.getId();
-                    if (panelConstructor.compare(curData, curId)) flag = true;
+            if (aGetResponseArray != null) {
+                for (int j = 0; j < aGetResponseArray.getItems().size(); j++) {
+                    boolean flag = false;
+                    WallpostFull curPost = aGetResponseArray.getItems().get(j);
+                    for (PanelConstructor panelConstructor : panelConstructors) {
+                        int curData = curPost.getDate();
+                        int curId = curPost.getId();
+                        if (panelConstructor.compare(curData, curId)) flag = true;
+                    }
+                    //Проверка на теги
+                    if (!flag && settings.getGroupCheckState(groupFull.get(i).getScreenName())) {
+                        flag = !checkGroupTags(curPost, settings.getGroupTags(groupFull.get(i).getScreenName()));
+                    }
+                    //Добавить панель
+                    if (!flag) {
+                        PanelConstructor newPanel = new PanelConstructor(PanelConstructor.PanelType.Post);
+                        newPanel.updatePanel(curPost, groupFull.get(i));
+                        panelConstructors.add(0, newPanel);
+                        sortFlag = true;
+                        //Вывести popup окно
+                        if (GUI.getInstance().getState() == 1 && settings.getNotifyType() && !firstStart)
+                            new PopupPanel(groupFull.get(i), curPost);
+                    }
                 }
-                //Проверка на теги
-                if (!flag && settings.getGroupCheckState(groupFull.get(i).getScreenName())) {
-                    flag = !checkGroupTags(curPost, settings.getGroupTags(groupFull.get(i).getScreenName()));
-                }
-                //Добавить панель
-                if (!flag) {
-                    PanelConstructor newPanel = new PanelConstructor(PanelConstructor.PanelType.Post);
-                    newPanel.updatePanel(curPost, groupFull.get(i));
-                    panelConstructors.add(0, newPanel);
-                    sortFlag = true;
-                    //Вывести popup окно
-                    if (GUI.getInstance().getState() == 1 && settings.getNotifyType() && !firstStart)
-                        new PopupPanel(groupFull.get(i), curPost);
-                }
+            } else {
+                String groupId = groupFull.get(i).getId();
+                String realName = groupFull.get(i).getName();
+                GUI.getInstance().showMessageBox("Группа '" + realName + "' имеет закрытую или пустую стену. " +
+                        "Во избежания увеличения времени ожидания загрузки рекомендуется удалить группу!");
+                GUI.getInstance().deleteGroup(groupId, realName);
             }
         }
         if (sortFlag) Collections.sort(panelConstructors);
         firstStart = false;
+        System.out.println("PanelController: addPosts STOP:" + getTime());
     }
 
     public void clearArray() {
@@ -64,6 +75,10 @@ public class PanelController {
             if (first.indexOf(second) > 0) out = true;
         }
         return out;
+    }
+
+    private String getTime() {
+        return new SimpleDateFormat("HH:mm:ss.SSS").format(Calendar.getInstance().getTime());
     }
 
 

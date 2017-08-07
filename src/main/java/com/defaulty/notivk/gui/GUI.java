@@ -1,8 +1,13 @@
 package com.defaulty.notivk.gui;
 
 import com.defaulty.notivk.backend.SettingsWrapper;
-import com.defaulty.notivk.backend.VKSDK;
-import com.defaulty.notivk.gui.components.*;
+import com.defaulty.notivk.backend.threadpool.Pool;
+import com.defaulty.notivk.backend.threadpool.PoolImpl;
+import com.defaulty.notivk.backend.threadpool.requests.CodeRequest;
+import com.defaulty.notivk.backend.threadpool.requests.GroupRequest;
+import com.defaulty.notivk.backend.threadpool.requests.ProfileRequest;
+import com.defaulty.notivk.backend.threadpool.requests.Request;
+import com.defaulty.notivk.gui.components.Browser;
 import com.defaulty.notivk.gui.panels.*;
 import com.defaulty.notivk.gui.service.Design;
 import com.defaulty.notivk.gui.service.PanelConstructor;
@@ -12,26 +17,26 @@ import com.vk.api.sdk.objects.wall.responses.GetResponse;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class GUI extends JFrame {
 
-    private static volatile GUI ourInstance = new GUI();
+    private static GUI ourInstance = new GUI();
     private static SettingsWrapper settings = SettingsWrapper.getInstance();
-    private static VKSDK vksdk = VKSDK.getInstance();
     private static Design design = Design.getInstance();
+    private static Pool pool = PoolImpl.getInstance();
 
     private Runnable executeRun;
-    private PanelController panelController = new PanelController();
-    private JPanel mainPanelsContainer = new JPanel();
-
-    private int lastWidth = 0;
-    private int lastHeight = 0;
-
     private Browser browser = null;
+    private PanelController panelController = new PanelController();
 
+    private JPanel mainPanelsContainer = new JPanel();
     private LeftMenu leftMenu = new LeftMenu();
     private RightPosts rightPosts = new RightPosts();
     private RightGroups rightGroups = new RightGroups();
@@ -64,7 +69,6 @@ public class GUI extends JFrame {
                 super.componentMoved(e);
             }
         });
-
         addWindowStateListener(e -> resizePanels());
         super.pack();
         super.setLocationRelativeTo(null);
@@ -76,14 +80,15 @@ public class GUI extends JFrame {
     }
 
     private void createGUI() {
-        mainPanelsContainer.setLayout(new BorderLayout());
-
         JLayeredPane rightLayer = new JLayeredPane();
         rightLayer.add(rightUpdate.getPanel(), new Integer(4));
         rightLayer.add(rightPosts.getPanel(), new Integer(3));
         rightLayer.add(rightGroups.getPanel(), new Integer(2));
         rightLayer.add(rightSettings.getPanel(), new Integer(1));
 
+        rightUpdate.setVisible(!settings.getGroupDataList().isEmpty());
+
+        mainPanelsContainer.setLayout(new BorderLayout());
         mainPanelsContainer.add(leftMenu.getPanel(), BorderLayout.WEST);
         mainPanelsContainer.add(rightLayer);
     }
@@ -93,7 +98,6 @@ public class GUI extends JFrame {
         rightGroups.setVisible(false);
         rightSettings.setVisible(false);
         rightUpdate.setVisible(false);
-
         switch (type) {
             case Posts:
                 rightPosts.setVisible(true);
@@ -112,6 +116,7 @@ public class GUI extends JFrame {
 
     public void toggleMenuVisible() {
         leftMenu.toggleVisible();
+        rightPosts.repaintComponent();
         resizePanels();
     }
 
@@ -121,89 +126,107 @@ public class GUI extends JFrame {
         System.out.println("GUI:addPostFromResponse");
         rightUpdate.setVisible(false);
         resizePanels();
+        rightPosts.repaintComponent();
     }
 
     private void addPosts() {
         ArrayList<PanelConstructor> panelConstructors = panelController.getPanelConstructors();
         for (PanelConstructor panelConstructor : panelConstructors) {
             if (!panelConstructor.isAddToContentPanel()) {
-                rightPosts.add(panelConstructor.getPanel(rightPosts.getWidth(), rightPosts.getHeight()));
+                rightPosts.add(panelConstructor.getPanel(), 0);
                 panelConstructor.setAddToContentPanel();
             }
         }
     }
 
     public void refreshList() {
-        rightUpdate.setVisible(true);
-        panelController.clearArray();
-        rightPosts.removeAll();
-        rightPosts.updateUI();
-        executeRun.run();
+        if (settings.getGroupsIdsList().size() > 0) {
+            rightUpdate.setVisible(true);
+            panelController.clearArray();
+            rightPosts.removeAll();
+            rightPosts.repaintComponent();
+            new Thread(executeRun).start();
+        } else
+            showMessageBox("Список групп пуст.");
     }
 
-    private void addGroupFromResponse(List<GroupFull> groupFull) {
-        for (GroupFull group : groupFull) {
-            addGroupFromResponse(group);
+    public void showMessageBox(String string) {
+        JOptionPane.showMessageDialog(null, string);
+    }
+
+    public void deleteGroup(String groupId, String realName) {
+        int dialogResult;
+        dialogResult = JOptionPane.showConfirmDialog(
+                null,
+                "Удалить группу '" + realName + "'?", "Предупреждение",
+                JOptionPane.YES_NO_OPTION);
+        if (dialogResult == JOptionPane.YES_OPTION) {
+            settings.removeGroupId(groupId);
+            settings.save();
+            rightGroups.removeAll();
+            refreshGroupsPanel();
         }
+    }
+
+    public void refreshGroupsPanel() {
+        pool.addRequest(new GroupRequest(settings.getGroupsIdsList(), settings.getUserData(), this::addGroupFromResponse));
+    }
+
+    private void addGroupFromResponse(List<Request> requestList) {
+        GroupRequest groupRequest = (GroupRequest) requestList.get(0);
+        List<GroupFull> groupFull = groupRequest.getResponseList();
+        for (GroupFull group : groupFull)
+            addGroupFromResponse(group);
+        rightGroups.repaintComponent();
     }
 
     private void addGroupFromResponse(GroupFull groupFull) {
         PanelConstructor newPanel = new PanelConstructor(PanelConstructor.PanelType.Group);
         newPanel.updatePanel(groupFull);
-        rightGroups.add(newPanel.getPanel(rightPosts.getWidth(), rightPosts.getHeight()));
+        rightGroups.add(newPanel.getPanel());
     }
 
-    public void guiAddGroup(String groupId) {
-        GroupFull groupFull = vksdk.getGroupData(groupId, settings.getUserData());
-        if (groupFull != null) {
-            settings.addGroupId(groupId);
-            settings.save();
-            addGroupFromResponse(groupFull);
-            rightGroups.updateUI();
-        }
+    public void guiAddNewGroupToPanel(String name) {
+        pool.addRequest(new GroupRequest(name, settings.getUserData(), this::guiAddNewGroupFromResponse));
     }
 
-    public void removeGuiGroups() {
-        rightGroups.removeAll();
-        rightGroups.updateUI();
+    private void guiAddNewGroupFromResponse(List<Request> requestList) {
+        GroupRequest groupRequest = (GroupRequest) requestList.get(0);
+        GroupFull groupFull = groupRequest.getResponse();
+        settings.addGroupId(groupFull.getId());
+        settings.save();
+        addGroupFromResponse(groupFull);
+        rightGroups.repaintComponent();
     }
 
-    public void guiAddGroup(List<String> groupsIds) {
-        List<GroupFull> groupFull = vksdk.getGroupData(groupsIds, settings.getUserData());
-        if (groupFull != null) {
-            addGroupFromResponse(groupFull);
-            rightGroups.updateUI();
-        }
+    public void getUserPanelInfo() {
+        pool.addRequest(new ProfileRequest(settings.getUserId(), settings.getUserData(), this::setUserPanelInfo));
     }
 
-    public void setUserPanelInfo() {
+    private void setUserPanelInfo(List<Request> requestList) {
+        ProfileRequest profileRequest = (ProfileRequest) requestList.get(0);
         PanelConstructor panelConstructor = new PanelConstructor(PanelConstructor.PanelType.Info);
-
-        panelConstructor.updatePanel(
-                vksdk.getUserInfo(
-                        settings.getUserId(),
-                        settings.getUserData()
-                )
-        );
+        panelConstructor.updatePanel(profileRequest.getResponse());
         panelConstructor.setPanelColor(design.getBackgroundColor());
         leftMenu.removeAll();
-        leftMenu.add(panelConstructor.getPanel(rightPosts.getWidth(), rightPosts.getHeight()));
-        leftMenu.updateUI();
+        leftMenu.add(panelConstructor.getPanel());
+        leftMenu.repaintComponent();
     }
 
-    public void resizePanels() {
-        int width = getWidth();
-        int height = getHeight();
+    private void resizePanels() {
+        //TODO: find way how don't use it
+        resizeTask();
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+        service.schedule(this::resizeTask, 1, TimeUnit.MILLISECONDS);
+    }
 
+    private void resizeTask() {
         int headerPostHeight = rightPosts.getHeaderHeight();
+        int rightWidth = getWidth() - 20;
+        int rightHeight = getHeight() - headerPostHeight - 5;
 
-        int rightWidth = width - 20;
         if (leftMenu.isVisible()) rightWidth -= leftMenu.getWidth();
 
-        int rightHeight = height - headerPostHeight - 5;
-
-        //if (lastWidth != rightWidth + width || lastHeight != rightHeight + height) {
-        //System.out.println("resize");
         rightUpdate.setBounds(0, headerPostHeight, rightWidth, rightHeight - headerPostHeight);
         rightPosts.setBounds(0, 0, rightWidth, rightHeight);
         rightGroups.setBounds(0, 0, rightWidth, rightHeight);
@@ -211,13 +234,9 @@ public class GUI extends JFrame {
 
         ArrayList<PanelConstructor> panelConstructors = panelController.getPanelConstructors();
         for (PanelConstructor pc : panelConstructors)
-            pc.setSize(rightWidth, rightHeight);
-
-        lastWidth = rightWidth + getWidth();
-        lastHeight = rightHeight + getHeight();
+            pc.setSize(rightWidth);
 
         rightPosts.updateScrollsPos();
-        //}
     }
 
     public void profileClick() {
@@ -228,9 +247,6 @@ public class GUI extends JFrame {
                     JOptionPane.YES_NO_OPTION);
             if (dialogResult == JOptionPane.YES_OPTION) {
                 leftMenu.removeAll();
-                leftMenu.updateUI();
-                settings.clearUserData();
-                settings.save();
                 openBrowser();
             }
         }
@@ -260,17 +276,22 @@ public class GUI extends JFrame {
                 int codePos = url.indexOf("#code=");
                 if (codePos != -1) {
                     browser.hideBrowser();
-                    if (settings.setUserData(vksdk.getUserAuthData(url.substring(codePos + 6, url.length())))) {
-                        settings.save();
-                        setUserPanelInfo();
-                        super.setEnabled(true);
-                    } else
-                        browser.loadUrl(startURL);
+                    pool.addRequest(new CodeRequest(url.substring(codePos + 6, url.length()), this::processUserData));
                 }
             });
             browser.run();
         } else
             browser.loadUrl(startURL);
+    }
+
+    private void processUserData(List<Request> requestList) {
+        CodeRequest codeRequest = (CodeRequest) requestList.get(0);
+        if (settings.setUserData(codeRequest.getResponse())) {
+            settings.save();
+            getUserPanelInfo();
+            super.setEnabled(true);
+        } else
+            openBrowser();
     }
 
 }

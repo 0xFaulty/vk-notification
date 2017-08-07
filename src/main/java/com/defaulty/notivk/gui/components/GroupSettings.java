@@ -8,7 +8,8 @@ import com.defaulty.notivk.gui.service.Design;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
 public class GroupSettings extends JFrame {
@@ -18,14 +19,16 @@ public class GroupSettings extends JFrame {
 
     private JCheckBox checkBox = new JCheckBox();
     private JTextArea textArea = new JTextArea();
-    private String groupName;
+    private String groupId;
+    private String realName;
 
-    public GroupSettings(String name) {
+    public GroupSettings(String groupId, String realName) {
 
-        super("Настройки группы: '" + name + "'");
+        super("Настройки группы: '" + realName + "'");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        this.groupName = name;
+        this.groupId = groupId;
+        this.realName = realName;
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -33,14 +36,14 @@ public class GroupSettings extends JFrame {
         checkBox.setText("Показывать посты со словами (тегами)");
         checkBox.setFocusPainted(false);
 
-        checkBox.setSelected(settings.getGroupCheckState(name));
+        checkBox.setSelected(settings.getGroupCheckState(groupId));
         checkBox.addActionListener(e -> settings.setNotifyType(checkBox.isSelected()));
 
         JPanel checkBoxPanel = new JPanel();
         checkBoxPanel.setLayout(new BorderLayout());
         checkBoxPanel.add(checkBox, BorderLayout.WEST);
 
-        textArea.setText(parseToString(settings.getGroupTags(name), ",\n"));
+        textArea.setText(parseToString(settings.getGroupTags(groupId), ",\n"));
         textArea.setAutoscrolls(true);
         Border border = BorderFactory.createLineBorder(Color.BLACK);
         textArea.setBorder(border);
@@ -80,22 +83,13 @@ public class GroupSettings extends JFrame {
     }
 
     private void deleteGroup() {
-        int dialogResult = JOptionPane.showConfirmDialog(
-                null,
-                "Удалить группу '" + groupName + "'?", "Предупреждение",
-                JOptionPane.YES_NO_OPTION);
-        if (dialogResult == JOptionPane.YES_OPTION) {
-            settings.removeGroupId(groupName);
-            settings.save();
-            GUI.getInstance().removeGuiGroups();
-            GUI.getInstance().guiAddGroup(settings.getGroupsIdsList());
-            dispose();
-        }
+        GUI.getInstance().deleteGroup(groupId, realName);
+        dispose();
     }
 
     private void saveGroupSettings() {
-        settings.setGroupCheckState(groupName, checkBox.isSelected());
-        settings.setGroupTags(groupName, parseToList(textArea.getText(), ","));
+        settings.setGroupCheckState(groupId, checkBox.isSelected());
+        settings.setGroupTags(groupId, parseToList(textArea.getText(), ","));
         settings.save();
         dispose();
     }

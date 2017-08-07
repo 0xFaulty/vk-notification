@@ -13,11 +13,9 @@ import java.util.Timer;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-
-        MainController mainController = new MainController();
-        Timer controllerTimer = new Timer(true);
-        controllerTimer.scheduleAtFixedRate(mainController, 0, 15 * 1000);
-
+        new MainController();
     }
+
+
 
 }

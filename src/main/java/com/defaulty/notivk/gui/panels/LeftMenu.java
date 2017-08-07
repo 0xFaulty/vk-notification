@@ -7,12 +7,7 @@ import com.defaulty.notivk.gui.service.Design;
 import javax.swing.*;
 import java.awt.*;
 
-public class LeftMenu {
-
-    private Design design = Design.getInstance();
-
-    private JPanel mainPanel = new JPanel();
-    private JPanel addPanel = new JPanel();
+public class LeftMenu extends Panel{
 
     public JPanel getPanel() {
         mainPanel.setPreferredSize(new Dimension(200, GUI.getInstance().getHeight()));
@@ -41,31 +36,4 @@ public class LeftMenu {
         return mainPanel;
     }
 
-    public void toggleVisible() {
-        mainPanel.setVisible(!mainPanel.isVisible());
-    }
-
-    public boolean isVisible() {
-        return mainPanel.isVisible();
-    }
-
-    public void add(JPanel panel) {
-        addPanel.add(panel);
-    }
-
-    public void removeAll() {
-        addPanel.removeAll();
-    }
-
-    public void updateUI() {
-        addPanel.updateUI();
-    }
-
-    public int getWidth() {
-        return mainPanel.getWidth();
-    }
-
-    public int getHeight() {
-        return mainPanel.getHeight();
-    }
 }

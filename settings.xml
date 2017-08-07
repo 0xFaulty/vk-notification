@@ -1,15 +1,26 @@
 <?xml version = '1.0'?>
 <app-settings>
- <properties>
-  <property key="tagEnabled:mzk">false</property>
-  <property key="savedGroups">pikabu|apiclub|grvps|science_technology|mzk|</property>
-  <property key="tagEnabled:apiclub">false</property>
-  <property key="tagEnabled:grvps">false</property>
-  <property key="accessToken">6d155707780271211ffaca9386b5eab370da4add591f7d547ac4459f1043bd4edcc4fb0eb349043142683</property>
-  <property key="tagEnabled:sci">false</property>
-  <property key="userId">437238811</property>
-  <property key="tagEnabled:pikabu">false</property>
-  <property key="enableNotify">true</property>
-  <property key="tagEnabled:science_technology">false</property>
- </properties>
+  <properties>
+    <property key="tagEnabled:2">false</property>
+    <property key="tagEnabled:31976785">false</property>
+    <property key="tagEnabled:1">false</property>
+    <property key="tagEnabled:43126078">false</property>
+    <property key="tagEnabled:78915126">false</property>
+    <property key="tagEnabled:31121802">false</property>
+    <property key="tagEnabled:25386130">false</property>
+    <property key="tagEnabled:10275795">false</property>
+    <property key="tagEnabled:63860907">false</property>
+    <property key="accessToken">76a68e747c9d2c6eed648bc9a6c8b11a48124c3b8071e752ab3e46e27f1404deef5cbf5947581e2f4078b</property>
+    <property key="userId">437238811</property>
+    <property key="enableNotify">true</property>
+    <property key="tagEnabled:34975870">false</property>
+    <property key="tagEnabled:31480508">false</property>
+    <property key="tagEnabled:34384434">false</property>
+    <property key="tagEnabled:11903823">false</property>
+    <property key="tagEnabled:113067906">false</property>
+    <property key="savedGroups">1|31480508|113067906|31976785|34384434|</property>
+    <property key="tagEnabled:4">false</property>
+    <property key="tagEnabled:126093223">false</property>
+    <property key="tagEnabled:3">false</property>
+  </properties>
 </app-settings>

@@ -8,13 +8,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
-public class RightGroups {
-
-    private static Design design = Design.getInstance();
-
-    private JPanel mainPanel = new JPanel();
-    private JPanel headerPanel = new JPanel();
-    private JPanel addPanel = new JPanel();
+public class RightGroups extends Panel {
 
     public JPanel getPanel() {
         JButton addButton = new ButtonConstructor().getSimpleButton(
@@ -46,34 +40,4 @@ public class RightGroups {
         return mainPanel;
     }
 
-    public void setVisible(boolean visible) {
-        mainPanel.setVisible(visible);
-        addPanel.setVisible(visible);
-        headerPanel.setVisible(visible);
-        mainPanel.setEnabled(visible);
-    }
-
-    public void add(JPanel panel) {
-        addPanel.add(panel);
-    }
-
-    public void removeAll() {
-        addPanel.removeAll();
-    }
-
-    public void updateUI() {
-        addPanel.updateUI();
-    }
-
-    public int getWidth() {
-        return mainPanel.getWidth();
-    }
-
-    public int getHeight() {
-        return mainPanel.getHeight();
-    }
-
-    public void setBounds(int x, int y, int width, int height) {
-        mainPanel.setBounds(x, y, width, height);
-    }
 }

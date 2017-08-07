@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/vk-notification.iml" filepath="$PROJECT_DIR$/vk-notification.iml" />
+      <module fileurl="file://$PROJECT_DIR$/notivk.iml" filepath="$PROJECT_DIR$/notivk.iml" />
     </modules>
   </component>
 </project>

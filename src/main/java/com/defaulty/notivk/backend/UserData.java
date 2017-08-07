@@ -1,25 +1,35 @@
 package com.defaulty.notivk.backend;
 
-class UserData {
+public class UserData {
 
-    private int userId = 0;
+    private String userId = "";
     private String accessToken = "";
     private Boolean notifyType = true;
     private String userName = "";
 
     private boolean userDataSet = false;
 
-    UserData() {
+    public UserData() {
     }
 
-    UserData(int userId, String accessToken) {
+    public UserData(String userId, String accessToken) {
         this.userId = userId;
         this.accessToken = accessToken;
         this.userDataSet = true;
     }
 
-    int getUserId() {
+    public UserData(int userId, String accessToken) {
+        this.userId = Integer.toString(userId);
+        this.accessToken = accessToken;
+        this.userDataSet = true;
+    }
+
+    String getUserId() {
         return userId;
+    }
+
+    int getIntUserId() {
+        return Integer.parseInt(userId);
     }
 
     String getAccessToken() {
