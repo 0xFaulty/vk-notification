@@ -77,7 +77,7 @@ public class GroupAdd extends JFrame {
     private void addGroupPreview(List<Request> requestList) {
         GroupRequest groupRequest = (GroupRequest) requestList.get(0);
         GroupFull groupFull = groupRequest.getResponse();
-        if (groupRequest.getGroupName().equals(jTextField.getText())) {
+        if (groupRequest.getGroupName().equals(detectGroupName(jTextField.getText()))) {
             if (groupFull != null) {
                 lastGroupId = groupFull.getId();
                 previewPanel.updatePanel(groupFull);

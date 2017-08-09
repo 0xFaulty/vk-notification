@@ -14,7 +14,7 @@ import java.util.List;
 public abstract class Request implements Runnable {
 
     protected static VKSDK vksdk = VKSDK.getInstance();
-    private static Pool pool = PoolImpl.getInstance();
+    protected static Pool pool = PoolImpl.getInstance();
 
     private static int lastRequestId = 0;
     private int requestId;
@@ -102,7 +102,7 @@ public abstract class Request implements Runnable {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        pool.sendThreadFinish();
+        pool.sendThreadFinish(this);
         if (requestState == RequestState.Finished) goBackPoint();
 
     }

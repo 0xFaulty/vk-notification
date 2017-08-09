@@ -29,14 +29,13 @@ public class PoolImpl extends TimerTask implements Pool {
     }
 
     public void addRequest(Request request) {
-        if (request.getRequestType() == RequestType.Multi)
+        if (request.getRequestType() == RequestType.Multi) {
             if (!requestsPool.contains(request)) {
                 requestsPool.add(request);
-            } else
-                System.out.println("This Multi container already added");
+            }
+        }
         else
             castToMultiRequestAndAdd(request);
-
     }
 
     private void castToMultiRequestAndAdd(Request request) {
@@ -50,28 +49,26 @@ public class PoolImpl extends TimerTask implements Pool {
         int currentListElement = 0;
         if (allowFlag && new Date().getTime() - lastTime >= 2000) {
             while (currentRequestCount < MAX_CONNECTIONS && !requestsPool.isEmpty() && requestsPool.size() > currentListElement) {
-                MultiRequest multiRequest = (MultiRequest) requestsPool.get(currentListElement);
-                if (multiRequest.getRequestState() != RequestState.Finished) {
-                    Request request = multiRequest.getNext();
-                    if (request != null) {
-                        request.setRequestState(RequestState.Runned);
-                        currentRequestCount++;
-                        new Thread(request).start();
-                    } else
-                        currentListElement++;
-                } else {
-                    requestsPool.remove(currentListElement);
-                }
+                Request request = ((MultiRequest) requestsPool.get(currentListElement)).getNext();
+                if (request != null) {
+                    request.setRequestState(RequestState.Runned);
+                    currentRequestCount++;
+                    new Thread(request).start();
+                } else
+                    currentListElement++;
             }
             if (currentRequestCount >= MAX_CONNECTIONS) allowFlag = false;
         }
     }
 
-    public synchronized void sendThreadFinish() {
+    public synchronized void sendThreadFinish(Request request) {
         currentRequestCount--;
         if (currentRequestCount == 0) {
             lastTime = new Date().getTime();
             allowFlag = true;
+        }
+        if (request.getRequestType() == RequestType.Multi) {
+            requestsPool.remove(request);
         }
     }
 

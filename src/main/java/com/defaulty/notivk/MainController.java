@@ -31,7 +31,7 @@ public class MainController extends TimerTask {
         settings.loadFileSettings(); //Read before gui
         gui = GUI.getInstance();
         gui.setExecuteRun(this);
-        SwingUtilities.invokeLater(() -> gui.runGUI(800, 800));
+        SwingUtilities.invokeLater(() -> gui.runGUI(810, 600));
 
         pool = PoolImpl.getInstance(); // Run pool timer
 

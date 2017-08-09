@@ -31,7 +31,7 @@ public class LinkMouseListener extends MouseAdapter {
             return;
         }
         JLabel label = (JLabel) e.getSource();
-        label.setForeground(design.getThirdForeColor());
+        label.setForeground(design.getFirstForeColor());
     }
 
     @Override

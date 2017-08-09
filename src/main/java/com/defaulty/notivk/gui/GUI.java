@@ -100,6 +100,8 @@ public class GUI extends JFrame {
         rightUpdate.setVisible(false);
         switch (type) {
             case Posts:
+                if (rightUpdate.isInProcess())
+                    rightUpdate.setVisible(true);
                 rightPosts.setVisible(true);
                 break;
             case Groups:
@@ -125,6 +127,7 @@ public class GUI extends JFrame {
         addPosts();
         System.out.println("GUI:addPostFromResponse");
         rightUpdate.setVisible(false);
+        rightUpdate.setInProcess(false);
         resizePanels();
         rightPosts.repaintComponent();
     }
@@ -142,16 +145,22 @@ public class GUI extends JFrame {
     public void refreshList() {
         if (settings.getGroupsIdsList().size() > 0) {
             rightUpdate.setVisible(true);
+            rightUpdate.setInProcess(true);
             panelController.clearArray();
             rightPosts.removeAll();
             rightPosts.repaintComponent();
             new Thread(executeRun).start();
-        } else
+        } else {
             showMessageBox("Список групп пуст.");
+        }
     }
 
     public void showMessageBox(String string) {
         JOptionPane.showMessageDialog(null, string);
+    }
+
+    public void updateLoadingLabel(int current, int all) {
+        rightUpdate.updateLabel(current, all);
     }
 
     public void deleteGroup(String groupId, String realName) {
@@ -217,7 +226,7 @@ public class GUI extends JFrame {
         //TODO: find way how don't use it
         resizeTask();
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-        service.schedule(this::resizeTask, 1, TimeUnit.MILLISECONDS);
+        service.schedule(this::resizeTask, 100, TimeUnit.MILLISECONDS);
     }
 
     private void resizeTask() {

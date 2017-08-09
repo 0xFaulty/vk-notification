@@ -18,6 +18,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -33,8 +34,8 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
     private static SettingsWrapper settings = SettingsWrapper.getInstance();
     private static Design design = Design.getInstance();
 
-    private int postPhotoHeight = 250;
-    private int postPhotoWidth = 250;
+    private int postPhotoHeight = 350;
+    private int postPhotoWidth = 350;
     private int groupPhotoHeight = 50;
     private int groupPhotoWidth = 50;
 
@@ -323,7 +324,6 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
     private void initPostTemplate() {
         groupLabel.setFont(design.getSecondBoldFont());
         groupLabel.setForeground(design.getThirdForeColor());
-        groupLabel.addMouseListener(new LinkMouseListener(this::launchBrowser));
 
         postImage = new JLabel();
         postImage.setBorder(design.getBorderLarge());
@@ -333,7 +333,6 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
         postText.setLineWrap(true);
         postText.setOpaque(false);
         postText.setEditable(false);
-        postText.setFocusable(false);
         postText.setFont(design.getFirstFont());
         postText.setForeground(design.getFirstForeColor());
         postText.setBorder(design.getBorderLarge());
@@ -342,12 +341,23 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
         textPanel.add(postText);
 
+        JLabel openLink = new JLabel("<html><u>Открыть в браузере</u></html>", JLabel.RIGHT);
+        openLink.addMouseListener(new LinkMouseListener(this::launchBrowser));
+        openLink.setFont(design.getFirstBoldFont());
+        openLink.setBorder(design.getBorderLarge());
+        JPanel linkPanel = new CustomPanel();
+        linkPanel.setLayout(new BorderLayout());
+        linkPanel.add(openLink, BorderLayout.EAST);
+
+
         photoPanel = new CustomPanel();
         photoPanel.setLayout(new BoxLayout(photoPanel, BoxLayout.Y_AXIS));
         photoPanel.add(postImage);
+        photoPanel.add(linkPanel);
 
         mainPanel.add(textPanel, BorderLayout.CENTER);
         mainPanel.add(photoPanel, BorderLayout.SOUTH);
+
     }
 
     private void initGroupTemplate() {
@@ -381,7 +391,6 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
     private void initPopupTemplate() {
         groupLabel.setFont(design.getSecondBoldFont());
         groupLabel.setForeground(design.getThirdForeColor());
-        groupLabel.addMouseListener(new LinkMouseListener(this::launchBrowser));
 
         textPanel = new CustomPanel();
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
@@ -391,7 +400,6 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
         postText.setLineWrap(true);
         postText.setOpaque(false);
         postText.setEditable(false);
-        postText.setFocusable(false);
         postText.setFont(design.getFirstFont());
         postText.setForeground(design.getFirstForeColor());
         postText.setBorder(design.getBorderLarge());
@@ -400,6 +408,11 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
         textPanel.add(postText);
 
         mainPanel.add(textPanel);
+    }
+
+    public void setPopupMouseListener(MouseListener popupMouseListener) {
+        postText.addMouseListener(popupMouseListener);
+        mainPanel.addMouseListener(popupMouseListener);
     }
 
     private String getMaxPreview(Photo photo) {
@@ -447,24 +460,23 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
         return str;
     }
 
-    public static ImageIcon makeThumbnail(ImageIcon fullImage, int width, int height) {
+    public static ImageIcon makeThumbnail(ImageIcon icon, int width, int height) {
+        Dimension dimension = getNewDimension(icon.getIconWidth(), icon.getIconHeight(), width, height);
+        return new ImageIcon(icon.getImage().getScaledInstance(dimension.width, dimension.height, Image.SCALE_SMOOTH));
+    }
 
-        int x1 = fullImage.getIconWidth(), y1 = fullImage.getIconHeight();
-        int x2, y2;
-
-        double a = (double) x1 / (double) y1;
+    private static Dimension getNewDimension(int sWidth, int sHeight, int width, int height) {
+        int x, y;
+        double a = (double) sWidth / (double) sHeight;
         double b = (double) width / (double) height;
         if (a > b) {
-            x2 = width;
-            y2 = (int) ((double) width / a);
+            x = width;
+            y = (int) ((double) width / a);
         } else {
-            x2 = (int) (height * a);
-            y2 = height;
+            x = (int) (height * a);
+            y = height;
         }
-
-        ImageIcon iconThumb;
-        iconThumb = new ImageIcon(fullImage.getImage().getScaledInstance(x2, y2, Image.SCALE_DEFAULT));
-        return iconThumb;
+        return new Dimension(x, y);
     }
 
     private String convertTime(long unixSeconds) {

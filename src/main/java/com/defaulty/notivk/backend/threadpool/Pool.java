@@ -4,5 +4,5 @@ import com.defaulty.notivk.backend.threadpool.requests.Request;
 
 public interface Pool {
     void addRequest(Request request);
-    void sendThreadFinish();
+    void sendThreadFinish(Request request);
 }

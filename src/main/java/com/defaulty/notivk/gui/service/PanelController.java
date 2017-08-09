@@ -3,12 +3,15 @@ package com.defaulty.notivk.gui.service;
 import com.defaulty.notivk.backend.SettingsWrapper;
 import com.defaulty.notivk.gui.GUI;
 import com.defaulty.notivk.gui.components.PopupPanel;
-import com.vk.api.sdk.objects.wall.responses.GetResponse;
 import com.vk.api.sdk.objects.groups.GroupFull;
 import com.vk.api.sdk.objects.wall.WallpostFull;
+import com.vk.api.sdk.objects.wall.responses.GetResponse;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
 
 public class PanelController {
 
@@ -57,6 +60,7 @@ public class PanelController {
                         "Во избежания увеличения времени ожидания загрузки рекомендуется удалить группу!");
                 GUI.getInstance().deleteGroup(groupId, realName);
             }
+            GUI.getInstance().updateLoadingLabel(i + 1, getResponseArray.size());
         }
         if (sortFlag) Collections.sort(panelConstructors);
         firstStart = false;

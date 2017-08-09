@@ -59,7 +59,7 @@ public class MultiRequest extends Request {
             if (r.getRequestState() != RequestState.Finished) flag = true;
         }
         if (!flag) {
-            setRequestState(RequestState.Finished);
+            pool.sendThreadFinish(this);
             getBackPoint().request(requestsList);
         }
     }
