@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
+/**
+ * The class {@code GroupSettings} представляет собой окно с настройками группы.
+ */
 public class GroupSettings extends JFrame {
 
     private static SettingsWrapper settings = SettingsWrapper.getInstance();
@@ -37,7 +40,7 @@ public class GroupSettings extends JFrame {
         checkBox.setFocusPainted(false);
 
         checkBox.setSelected(settings.getGroupCheckState(groupId));
-        checkBox.addActionListener(e -> settings.setNotifyType(checkBox.isSelected()));
+        checkBox.addActionListener(e -> settings.setNotifyState(checkBox.isSelected()));
 
         JPanel checkBoxPanel = new JPanel();
         checkBoxPanel.setLayout(new BorderLayout());
@@ -94,7 +97,7 @@ public class GroupSettings extends JFrame {
         dispose();
     }
 
-    private java.util.List<String> parseToList(String s, String separator) {
+    java.util.List<String> parseToList(String s, String separator) {
         s = s.replace("\n", "");
         java.util.List<String> out = new ArrayList<>();
         String[] array = s.split(Pattern.quote(separator));
@@ -104,7 +107,7 @@ public class GroupSettings extends JFrame {
         return out;
     }
 
-    private String parseToString(java.util.List<String> list, String separator) {
+    String parseToString(java.util.List<String> list, String separator) {
         StringBuilder sb = new StringBuilder();
         for (String s : list) {
             sb.append(s);

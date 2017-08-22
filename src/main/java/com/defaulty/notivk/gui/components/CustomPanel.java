@@ -5,6 +5,9 @@ import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.RoundRectangle2D;
 
+/**
+ * The class {@code CustomPanel} предназначен для создания панели с расширенными насройками.
+ */
 public class CustomPanel extends JPanel {
     private int strokeThickness = 0;
     private int radius = 10;
@@ -14,6 +17,18 @@ public class CustomPanel extends JPanel {
 
     public void setBubbleColor(Color bubbleColor) {
         this.bubbleColor = bubbleColor;
+    }
+
+    public void setStrokeThickness(int strokeThickness) {
+        this.strokeThickness = strokeThickness;
+    }
+
+    public void setRadius(int radius) {
+        this.radius = radius;
+    }
+
+    public void setPadding(int padding) {
+        this.padding = padding;
     }
 
     @Override

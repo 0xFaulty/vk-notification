@@ -9,7 +9,7 @@ import com.vk.api.sdk.objects.wall.responses.GetResponse;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * 18/07/2017
+ * The class {@code WallRequest} используется для создания и исполнения запросов типа getWall.
  */
 public class WallRequest extends Request {
 
@@ -23,7 +23,7 @@ public class WallRequest extends Request {
     private GetResponse response;
 
     public WallRequest(@NotNull String domain, @NotNull UserData userData, int count, int offset, BackPoint backPoint) {
-        super(RequestType.Wall, backPoint);
+        super(RequestType.WALL, backPoint);
         super.setRequestId(domain.hashCode());
         this.typeDomain = true;
         this.domain = domain;
@@ -33,7 +33,7 @@ public class WallRequest extends Request {
     }
 
     public WallRequest(int ownerId, @NotNull UserData userData, int count, int offset, BackPoint backPoint) {
-        super(RequestType.Wall, backPoint);
+        super(RequestType.WALL, backPoint);
         super.setRequestId(Integer.toString(ownerId).hashCode());
         this.typeDomain = false;
         this.ownerId = ownerId;

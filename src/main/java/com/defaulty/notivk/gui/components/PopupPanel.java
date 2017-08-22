@@ -19,6 +19,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * The class {@code GroupSettings} представляет собой всплывающее окно уведомления.
+ */
 public class PopupPanel {
 
     private static Design design = Design.getInstance();

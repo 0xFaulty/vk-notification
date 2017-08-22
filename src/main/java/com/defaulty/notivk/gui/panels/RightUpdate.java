@@ -4,13 +4,18 @@ import com.defaulty.notivk.gui.components.RotatePanel;
 
 import javax.swing.*;
 
+/**
+ * The class {@code RightUpdate} представляет собой правую панель отображающуюся
+ * во время загрузки.
+ */
 public class RightUpdate extends Panel {
 
     private JLabel label;
     private boolean inProcess;
+    private RotatePanel rotatePanel;
 
     public JPanel getPanel() {
-        RotatePanel rotatePanel = new RotatePanel();
+        rotatePanel = new RotatePanel();
         label = new JLabel("..", JLabel.CENTER);
         label.setFont(design.getSecondBoldFont());
         label.setForeground(design.getThirdForeColor());
@@ -32,6 +37,7 @@ public class RightUpdate extends Panel {
     @Override
     public void setVisible(boolean visible) {
         super.setVisible(visible);
+        rotatePanel.setRotateFlag(visible);
     }
 
     public boolean isInProcess() {

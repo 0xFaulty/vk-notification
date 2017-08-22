@@ -29,13 +29,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+/**
+ * The class {@code PanelConstructor} создаёт структуру панели
+ * переданного типа после чего методом updatePanel обрабатывается и заполняется
+ * контент панели.
+ */
 public class PanelConstructor implements Comparable<PanelConstructor> {
 
     private static SettingsWrapper settings = SettingsWrapper.getInstance();
     private static Design design = Design.getInstance();
 
-    private int postPhotoHeight = 350;
-    private int postPhotoWidth = 350;
     private int groupPhotoHeight = 50;
     private int groupPhotoWidth = 50;
 
@@ -43,7 +46,6 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
     private int timeIdentifier = 0;
     private int idIdentifier = 0;
     private String groupId;
-    private String groupNameId;
 
     private CustomPanel mainPanel;
     private CustomPanel headerPanel;
@@ -87,10 +89,12 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
     }
 
     public void setSize(int width) {
-        width = width - 50;
-        postText.setMaximumSize(new Dimension(width, Integer.MAX_VALUE));
-        postText.revalidate();
-        postText.repaint();
+        if (width >= 0) {
+            width = width - 50;
+            postText.setMaximumSize(new Dimension(width, Integer.MAX_VALUE));
+            postText.revalidate();
+            postText.repaint();
+        }
     }
 
     private void launchBrowser() {
@@ -98,12 +102,8 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
         if (Desktop.isDesktopSupported()) {
             desktop = Desktop.getDesktop();
             if (desktop.isSupported(Desktop.Action.BROWSE)) {
-                // launch browser
-                URI uri;
                 try {
-                    uri = new URI("https://vk.com/wall-" + groupId + "_" + idIdentifier);
-
-                    desktop.browse(uri);
+                    desktop.browse(new URI("https://vk.com/wall-" + groupId + "_" + idIdentifier));
                 } catch (IOException | URISyntaxException ioe) {
                     ioe.printStackTrace();
                 }
@@ -139,8 +139,7 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
         this.panelType = type;
     }
 
-    public void updatePanel(WallpostFull postFull, GroupFull groupFull) { //Posts
-
+    public void updatePanel(WallpostFull postFull, GroupFull groupFull) { //POST
         if (groupFull.getPhoto200() != null) {
             try {
                 groupImage.setIcon(makeThumbnail(new ImageIcon(new URL(groupFull.getPhoto200())), groupPhotoWidth, groupPhotoHeight));
@@ -152,11 +151,12 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
         groupName.setText(groupFull.getName());
         groupLabel.setText(convertTime(postFull.getDate()));
         groupId = groupFull.getId();
-        groupNameId = groupFull.getScreenName();
 
         idIdentifier = postFull.getId();
         timeIdentifier = postFull.getDate();
 
+        int postPhotoHeight = 350;
+        int postPhotoWidth = 350;
         Dimension size = new Dimension(postPhotoWidth, postPhotoHeight);
 
         if (postFull.getCopyHistory() != null && postFull.getCopyHistory().size() > 0)
@@ -176,8 +176,8 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
         }
     }
 
-    private void attachmentsParse(WallpostAttachment wpa, String text, JTextArea outText, JLabel outImage, Dimension size) {
-
+    private void attachmentsParse(WallpostAttachment wpa, String text,
+                                  JTextArea outText, JLabel outImage, Dimension size) {
         String maxPhoto = null;
         String curText = "";
 
@@ -225,23 +225,20 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
         }
 
         outText.setText(curText);
-
     }
 
-    public void updatePanel(GroupFull groupFull) { //Groups
-
+    public void updatePanel(GroupFull groupFull) { //PANEL
         if (groupFull.getPhoto200() != null) {
             try {
-                groupImage.setIcon(makeThumbnail(new ImageIcon(new URL(groupFull.getPhoto200())), GUI.getInstance().getWidth(), groupPhotoHeight));
+                groupImage.setIcon(makeThumbnail(new ImageIcon(new URL(groupFull.getPhoto200())),
+                        GUI.getInstance().getWidth(), groupPhotoHeight));
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
         }
         groupName.setText(groupFull.getName());
         groupLabel.setText(groupFull.getMembersCount() + " участников");
-
         groupId = groupFull.getId();
-        groupNameId = groupFull.getScreenName();
     }
 
     public void updatePanel(GroupFull groupFull, WallpostFull postFull) { //Popup
@@ -261,7 +258,8 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
         if (groupImage.getIcon() == null) {
             if (groupFull.getPhoto200() != null) {
                 try {
-                    groupImage.setIcon(makeThumbnail(new ImageIcon(new URL(groupFull.getPhoto200())), size.width, size.height));
+                    groupImage.setIcon(makeThumbnail(new ImageIcon(new URL(groupFull.getPhoto200())),
+                            size.width, size.height));
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
@@ -270,13 +268,11 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
 
         groupName.setText(groupFull.getName());
         groupLabel.setText(convertTime(postFull.getDate()));
-
         idIdentifier = postFull.getId();
         groupId = groupFull.getId();
-        groupNameId = groupFull.getScreenName();
     }
 
-    public void updatePanel(UserXtrCounters userXtrCounters) { //Profile
+    public void updatePanel(UserXtrCounters userXtrCounters) { //PROFILE
         if (userXtrCounters != null) {
             if (userXtrCounters.getPhotoMaxOrig() != null) {
                 try {
@@ -349,7 +345,6 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
         linkPanel.setLayout(new BorderLayout());
         linkPanel.add(openLink, BorderLayout.EAST);
 
-
         photoPanel = new CustomPanel();
         photoPanel.setLayout(new BoxLayout(photoPanel, BoxLayout.Y_AXIS));
         photoPanel.add(postImage);
@@ -357,7 +352,6 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
 
         mainPanel.add(textPanel, BorderLayout.CENTER);
         mainPanel.add(photoPanel, BorderLayout.SOUTH);
-
     }
 
     private void initGroupTemplate() {
@@ -369,7 +363,7 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
                     if (e.getButton() == MouseEvent.BUTTON1) {
                         GroupSettings groupSettings = new GroupSettings(groupId, groupName.getText());
                         groupSettings.pack();
-                        groupSettings.setLocationRelativeTo(null); //Screen center
+                        groupSettings.setLocationRelativeTo(null);
                         groupSettings.setVisible(true);
                     }
                 }
@@ -460,7 +454,8 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
         return str;
     }
 
-    public static ImageIcon makeThumbnail(ImageIcon icon, int width, int height) {
+    public static ImageIcon makeThumbnail(@NotNull ImageIcon icon, int width, int height) {
+        if (width < 0 || height < 0) throw new IllegalArgumentException("Width or height less zero");
         Dimension dimension = getNewDimension(icon.getIconWidth(), icon.getIconHeight(), width, height);
         return new ImageIcon(icon.getImage().getScaledInstance(dimension.width, dimension.height, Image.SCALE_SMOOTH));
     }
@@ -480,9 +475,9 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
     }
 
     private String convertTime(long unixSeconds) {
-        Date date = new Date(unixSeconds * 1000L); // *1000 is to convert seconds to milliseconds
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss z"); // the format of your date
-        sdf.setTimeZone(TimeZone.getTimeZone("GMT+3")); // give a timezone reference for formating
+        Date date = new Date(unixSeconds * 1000L);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss z");
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT+3"));
         return sdf.format(date);
     }
 

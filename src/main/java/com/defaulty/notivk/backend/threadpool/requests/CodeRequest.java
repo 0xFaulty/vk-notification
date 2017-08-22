@@ -8,7 +8,7 @@ import com.vk.api.sdk.exceptions.ClientException;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * 18/07/2017
+ * The class {@code ProfileRequest} используется для создания и исполнения запросов типа getUserAuthData.
  */
 public class CodeRequest extends Request {
 
@@ -16,7 +16,7 @@ public class CodeRequest extends Request {
     private UserData response;
 
     public CodeRequest(@NotNull String code, BackPoint backPoint) {
-        super(RequestType.Code, backPoint);
+        super(RequestType.CODE, backPoint);
         super.setRequestId(0);
         this.code = code;
     }

@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 /**
- * 18/07/2017
+ * The class {@code ProfileRequest} используется для создания и исполнения запросов типа getGroupData.
  */
 public class GroupRequest extends Request {
 
@@ -24,21 +24,21 @@ public class GroupRequest extends Request {
     private List<GroupFull> responseList;
     private GroupFull response;
 
-    public GroupRequest(@NotNull List<String> groupNameList, @NotNull UserData userData, BackPoint backPoint) {
-        super(RequestType.Group, backPoint);
+    public GroupRequest(@NotNull List<String> groupIdList, @NotNull UserData userData, BackPoint backPoint) {
+        super(RequestType.GROUP, backPoint);
         super.setRequestId(0);
-        for (String name : groupNameList)
+        for (String name : groupIdList)
             if (name.equals("")) throw new IllegalArgumentException("Empty group name in list");
-        this.groupNameList = groupNameList;
+        this.groupNameList = groupIdList;
         this.userData = userData;
         this.listType = true;
     }
 
-    public GroupRequest(@NotNull String groupName, @NotNull UserData userData, BackPoint backPoint) {
-        super(RequestType.Group, backPoint);
-        super.setRequestId(groupName.hashCode());
-        if (groupName.equals("")) throw new IllegalArgumentException("Empty group name");
-        this.groupName = groupName;
+    public GroupRequest(@NotNull String groupId, @NotNull UserData userData, BackPoint backPoint) {
+        super(RequestType.GROUP, backPoint);
+        super.setRequestId(groupId.hashCode());
+        if (groupId.equals("")) throw new IllegalArgumentException("Empty group name");
+        this.groupName = groupId;
         this.userData = userData;
         this.listType = false;
     }

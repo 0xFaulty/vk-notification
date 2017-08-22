@@ -2,18 +2,16 @@ package com.defaulty.notivk.gui.panels;
 
 import com.defaulty.notivk.gui.GUI;
 import com.defaulty.notivk.gui.service.ButtonConstructor;
-import com.defaulty.notivk.gui.service.Design;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ContainerAdapter;
-import java.awt.event.ContainerEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
-public class RightPosts extends Panel{
+/**
+ * The class {@code RightPosts} представляет собой главную правую панель
+ * приложения и отвечает за отображение полученных из групп постов.
+ */
+public class RightPosts extends Panel {
 
     private JScrollPane rightPostsScroll;
 

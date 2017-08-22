@@ -18,16 +18,20 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 
+/**
+ *@author     Siarhej Berdachuk
+ *@version    1.0
+ */
 public final class AppSettings {
 
-  private HashMap fHashMap;
+  private HashMap<String, Object> fHashMap;
   private static AppSettings SINGLETON;
   static {
     SINGLETON = new AppSettings();
   }
 
   private AppSettings() {
-    fHashMap = new HashMap();
+    fHashMap = new HashMap<>();
   }
 
   public static Object get(String key) {
@@ -59,7 +63,7 @@ public final class AppSettings {
     Element root = doc.getDocumentElement();
     Element propertiesElement = doc.createElement("properties");
     root.appendChild(propertiesElement);
-    Set set = SINGLETON.fHashMap.keySet();
+    Set<String> set = SINGLETON.fHashMap.keySet();
     for (Object aSet : set) {
       String key = aSet.toString();
       Element propertyElement = doc.createElement("property");
@@ -81,9 +85,8 @@ public final class AppSettings {
 
 
   public static void put(String key, Object data) {
-    //prevent null values. Hasmap allow them
     if (data == null) {
-      throw new IllegalArgumentException("Try put null value");
+      throw new NullPointerException("Try put null value");
     } else {
       SINGLETON.fHashMap.put(key, data);
     }

@@ -11,10 +11,14 @@ import java.io.InputStream;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * The class {@code GroupSettings} представляет собой панель с возможностью вращения.
+ */
 public class RotatePanel extends JPanel {
 
     private BufferedImage bi;
     private double angle = 0;
+    private boolean rotateFlag = true;
 
     public RotatePanel() {
         try {
@@ -40,10 +44,16 @@ public class RotatePanel extends JPanel {
     }
 
     private void rotate() {
-        double nextAngle = angle += 0.1;
-        angle = nextAngle < 8 ? nextAngle : 0;
-        revalidate();
-        repaint();
+        if (rotateFlag) {
+            double nextAngle = angle += 0.1;
+            angle = nextAngle < 8 ? nextAngle : 0;
+            revalidate();
+            repaint();
+        }
+    }
+
+    public void setRotateFlag(boolean rotateFlag) {
+        this.rotateFlag = rotateFlag;
     }
 
     @Override

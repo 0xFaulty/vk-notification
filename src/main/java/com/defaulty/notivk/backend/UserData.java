@@ -1,24 +1,31 @@
 package com.defaulty.notivk.backend;
 
+/**
+ * The class {@code UserData} содержит данные о текущем пользователе.
+ * userId - идентификационный номер пользователя,
+ * userName - имя и фамилия полученные по api,
+ * accessToken - токен для прохождения идентификации oauth,
+ * notifyState - флаг настроек отвечающих за показ всплывающего окна уведомления.
+ */
 public class UserData {
 
     private String userId = "";
-    private String accessToken = "";
-    private Boolean notifyType = true;
     private String userName = "";
+    private String accessToken = "";
+    private Boolean notifyState = true;
 
     private boolean userDataSet = false;
 
-    public UserData() {
+    UserData() {
     }
 
-    public UserData(String userId, String accessToken) {
+    UserData(String userId, String accessToken) {
         this.userId = userId;
         this.accessToken = accessToken;
         this.userDataSet = true;
     }
 
-    public UserData(int userId, String accessToken) {
+    UserData(int userId, String accessToken) {
         this.userId = Integer.toString(userId);
         this.accessToken = accessToken;
         this.userDataSet = true;
@@ -36,23 +43,23 @@ public class UserData {
         return accessToken;
     }
 
-    Boolean getNotifyType() {
-        return notifyType;
+    Boolean getNotifyState() {
+        return notifyState;
     }
 
-    void setNotifyType(Boolean notifyType) {
-        this.notifyType = notifyType;
+    void setNotifyState(Boolean notifyState) {
+        this.notifyState = notifyState;
     }
 
-    public boolean isUserDataSet() {
+    boolean isUserDataSet() {
         return userDataSet;
     }
 
-    public String getUserName() {
+    String getUserName() {
         return userName;
     }
 
-    public void setUserName(String userName) {
+    void setUserName(String userName) {
         this.userName = userName;
     }
 }

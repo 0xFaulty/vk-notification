@@ -2,11 +2,13 @@ package com.defaulty.notivk.gui.panels;
 
 import com.defaulty.notivk.gui.GUI;
 import com.defaulty.notivk.gui.service.ButtonConstructor;
-import com.defaulty.notivk.gui.service.Design;
 
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The class {@code LeftMenu} представляет собой левую панель с кнопками управления.
+ */
 public class LeftMenu extends Panel{
 
     public JPanel getPanel() {
@@ -19,11 +21,11 @@ public class LeftMenu extends Panel{
         buttons.setBorder(design.getBorderSmall());
 
         buttons.add(new ButtonConstructor().getFullPanelButton(
-                "Новые", e -> GUI.getInstance().setTopPanel(EnumPanels.Posts), buttSize));
+                "Новые", e -> GUI.getInstance().setTopPanel(EnumPanels.POST), buttSize));
         buttons.add(new ButtonConstructor().getFullPanelButton(
-                "Группы", e -> GUI.getInstance().setTopPanel(EnumPanels.Groups), buttSize));
+                "Группы", e -> GUI.getInstance().setTopPanel(EnumPanels.PANEL), buttSize));
         buttons.add(new ButtonConstructor().getFullPanelButton(
-                "Настройки", e -> GUI.getInstance().setTopPanel(EnumPanels.Settings), buttSize));
+                "Настройки", e -> GUI.getInstance().setTopPanel(EnumPanels.SETTINGS), buttSize));
 
         JPanel leftButtonsWrapper = new JPanel();
         leftButtonsWrapper.setLayout(new BorderLayout());

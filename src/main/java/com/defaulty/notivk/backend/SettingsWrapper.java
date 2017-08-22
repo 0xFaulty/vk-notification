@@ -9,10 +9,16 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+/**
+ * The class {@code SettingsWrapper} служит оберткой для сериализации в xml
+ * настроек приложения, а также получения этих настроек.
+ */
 public class SettingsWrapper {
 
     private static UserData userData = new UserData();
     private List<GroupData> groupDataList = new ArrayList<>();
+
+    private String settingsFileName = "settings.xml";
 
     private final String separator = "|";
     private final String separator2 = ",";
@@ -30,41 +36,45 @@ public class SettingsWrapper {
         return ourInstance;
     }
 
-    public void loadFileSettings() {
+    private SettingsWrapper() {
         loadSettings();
     }
 
-    public List<String> getGroupsIdsList() {
+    public List<String> getGroupIdList() {
         List<String> list = new ArrayList<>();
         for (GroupData group : groupDataList) {
-            list.add(group.getGroupNameId());
+            list.add(group.getGroupId());
         }
         return list;
+    }
+
+    public void setSettingsFileName(String settingsFileName) {
+        this.settingsFileName = settingsFileName;
     }
 
     public List<GroupData> getGroupDataList() {
         return groupDataList;
     }
 
-    public void addGroupId(String name) {
+    public void addGroupId(String id) {
         GroupData groupData = new GroupData();
-        groupData.setGroupNameId(name);
+        groupData.setGroupId(id);
         groupDataList.add(groupData);
     }
 
-    public void removeGroupId(String groupNameId) {
+    public void removeGroupId(String groupId) {
         for (GroupData group : groupDataList) {
-            if (group.getGroupNameId().equals(groupNameId)) {
+            if (group.getGroupId().equals(groupId)) {
                 groupDataList.remove(group);
                 break;
             }
         }
     }
 
-    public boolean getGroupCheckState(String groupNameId) {
+    public boolean getGroupCheckState(String groupId) {
         boolean out = false;
         for (GroupData group : groupDataList) {
-            if (group.getGroupNameId().equals(groupNameId)) {
+            if (group.getGroupId().equals(groupId)) {
                 out = group.isEnableTags();
                 break;
             }
@@ -72,10 +82,10 @@ public class SettingsWrapper {
         return out;
     }
 
-    public List<String> getGroupTags(String groupNameId) {
+    public List<String> getGroupTags(String groupId) {
         List<String> out = new ArrayList<>();
         for (GroupData group : groupDataList) {
-            if (group.getGroupNameId().equals(groupNameId)) {
+            if (group.getGroupId().equals(groupId)) {
                 out = group.getTags();
                 break;
             }
@@ -83,26 +93,26 @@ public class SettingsWrapper {
         return out;
     }
 
-    public void setGroupCheckState(String groupNameId, boolean state) {
+    public void setGroupCheckState(String groupId, boolean state) {
         for (GroupData group : groupDataList) {
-            if (group.getGroupNameId().equals(groupNameId)) {
+            if (group.getGroupId().equals(groupId)) {
                 group.setEnableTags(state);
                 break;
             }
         }
     }
 
-    public void setGroupTags(String groupNameId, List<String> tags) {
+    public void setGroupTags(String groupId, List<String> tags) {
         for (GroupData group : groupDataList) {
-            if (group.getGroupNameId().equals(groupNameId)) {
+            if (group.getGroupId().equals(groupId)) {
                 group.setTags(tags);
                 break;
             }
         }
     }
 
-    public void setNotifyType(Boolean notifyType) {
-        userData.setNotifyType(notifyType);
+    public void setNotifyState(Boolean notifyState) {
+        userData.setNotifyState(notifyState);
     }
 
     public void setUserName(String userName) {
@@ -113,8 +123,8 @@ public class SettingsWrapper {
         return userData.getUserName();
     }
 
-    public Boolean getNotifyType() {
-        return userData.getNotifyType();
+    public Boolean getNotifyState() {
+        return userData.getNotifyState();
     }
 
     public String getUserId() {
@@ -147,12 +157,12 @@ public class SettingsWrapper {
             AppSettings.put(userId, userData.getUserId());
         if (AppSettings.get(accessToken) != userData.getAccessToken())
             AppSettings.put(accessToken, userData.getAccessToken());
-        if (AppSettings.get(enableNotify) != userData.getNotifyType().toString())
-            AppSettings.put(enableNotify, userData.getNotifyType().toString());
+        if (AppSettings.get(enableNotify) != userData.getNotifyState().toString())
+            AppSettings.put(enableNotify, userData.getNotifyState().toString());
 
         StringBuilder groupIds = new StringBuilder();
         for (GroupData group : groupDataList) {
-            String curGroup = group.getGroupNameId();
+            String curGroup = group.getGroupId();
             groupIds.append(curGroup).append(separator);
             String curString = group.isEnableTags().toString();
             if (AppSettings.get(tagEnabled + curGroup) != curString)
@@ -173,7 +183,7 @@ public class SettingsWrapper {
         updateState();
 
         String propDir = "./";
-        File file = new File(propDir, "settings.xml");
+        File file = new File(propDir, settingsFileName);
         try {
             AppSettings.save(file);
             System.out.println("saving settings done...");
@@ -182,9 +192,9 @@ public class SettingsWrapper {
         }
     }
 
-    private void loadSettings() {
+    public void loadSettings() {
         String propDir = "./";
-        File file = new File(propDir, "settings.xml");
+        File file = new File(propDir, settingsFileName);
         String tmpStr1;
         String tmpStr2;
 
@@ -200,8 +210,8 @@ public class SettingsWrapper {
             if (userData != null) {
                 tmpStr2 = (String) AppSettings.get(enableNotify);
                 if (tmpStr2 != null)
-                    if (tmpStr2.equals("true")) userData.setNotifyType(true);
-                    else userData.setNotifyType(false);
+                    if (tmpStr2.equals("true")) userData.setNotifyState(true);
+                    else userData.setNotifyState(false);
             }
 
             if (groupDataList == null) groupDataList = new ArrayList<>();
@@ -211,7 +221,7 @@ public class SettingsWrapper {
                 List<String> curGroupList = parseToList(tmpStr2, separator);
                 for (String group : curGroupList) {
                     GroupData groupData = new GroupData();
-                    groupData.setGroupNameId(group);
+                    groupData.setGroupId(group);
                     tmpStr2 = (String) AppSettings.get(tagEnabled + group);
                     if (tmpStr2 != null) {
                         if (tmpStr2.equals("true"))
@@ -229,7 +239,7 @@ public class SettingsWrapper {
 
             System.out.println("loading settings done...");
         } catch (java.io.FileNotFoundException eNotFound) {
-            System.out.println("Settings file not found...");
+            System.out.println("SETTINGS file not found...");
         } catch (Exception e) {
             e.printStackTrace();
         }

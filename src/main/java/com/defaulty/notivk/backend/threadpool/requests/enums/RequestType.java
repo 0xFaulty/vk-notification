@@ -1,8 +1,11 @@
 package com.defaulty.notivk.backend.threadpool.requests.enums;
 
 /**
- * 18/07/2017
+ * Enum {@code RequestType} используется для обозначения типа запроса после
+ * понижения типа.
  */
 public enum RequestType {
-    Wall, Group, Profile, Code, Multi
+    WALL, GROUP, PROFILE, CODE, MULTI
 }
+
+

@@ -18,6 +18,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The class {@code VKSDK} представляет собой обертку в которой формируются
+ * и исполняюстся запросы к {@code VkApiClient}.
+ */
 public class VKSDK {
 
     private VkApiClient vk = null;
@@ -109,7 +113,6 @@ public class VKSDK {
 
     @NotNull
     private List<UserXtrCounters> getUserInfoResponse(List<String> groupNames, UserData userData) throws ClientException, ApiException {
-
         UserActor actor = new UserActor(userData.getIntUserId(), userData.getAccessToken());
         return new ArrayList<>(vk.users().get(actor)
                 .userIds(groupNames)

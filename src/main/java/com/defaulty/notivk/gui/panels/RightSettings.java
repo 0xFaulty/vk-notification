@@ -2,11 +2,14 @@ package com.defaulty.notivk.gui.panels;
 
 import com.defaulty.notivk.backend.SettingsWrapper;
 import com.defaulty.notivk.gui.service.ButtonConstructor;
-import com.defaulty.notivk.gui.service.Design;
 
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The class {@code RightSettings} представляет собой правую панель содержащую
+ * настройки приложения.
+ */
 public class RightSettings extends Panel {
 
     private static SettingsWrapper settings = SettingsWrapper.getInstance();
@@ -16,7 +19,7 @@ public class RightSettings extends Panel {
         JButton resetButton = new ButtonConstructor().getSimpleButton(
                 "Сбросить", e -> {
                     notifyCheckBox.setSelected(true);
-                    settings.setNotifyType(true);
+                    settings.setNotifyState(true);
                     settings.save();
                 });
 
@@ -24,9 +27,9 @@ public class RightSettings extends Panel {
         notifyCheckBox.setForeground(design.getSecondForeColor());
         notifyCheckBox.setText("Разрешить всплывающее окно уведомлений");
         notifyCheckBox.setFocusPainted(false);
-        notifyCheckBox.setSelected(settings.getNotifyType());
+        notifyCheckBox.setSelected(settings.getNotifyState());
         notifyCheckBox.addActionListener(e -> {
-            settings.setNotifyType(notifyCheckBox.isSelected());
+            settings.setNotifyState(notifyCheckBox.isSelected());
             settings.save();
         });
 

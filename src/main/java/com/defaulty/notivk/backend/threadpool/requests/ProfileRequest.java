@@ -10,7 +10,7 @@ import com.vk.api.sdk.objects.users.UserXtrCounters;
 import java.util.List;
 
 /**
- * 18/07/2017
+ * The class {@code ProfileRequest} используется для создания и исполнения запросов типа getUserInfo.
  */
 public class ProfileRequest extends Request {
 
@@ -23,7 +23,7 @@ public class ProfileRequest extends Request {
     private List<UserXtrCounters> responseList;
 
     public ProfileRequest(String userId, UserData userData, BackPoint backPoint) {
-        super(RequestType.Profile, backPoint);
+        super(RequestType.PROFILE, backPoint);
         super.setRequestId(0);
         this.listType = false;
         this.userId = userId;
@@ -31,7 +31,7 @@ public class ProfileRequest extends Request {
     }
 
     public ProfileRequest(List<String> userIds, UserData userData, BackPoint backPoint) {
-        super(RequestType.Profile, backPoint);
+        super(RequestType.PROFILE, backPoint);
         super.setRequestId(0);
         this.listType = true;
         this.userIds = userIds;

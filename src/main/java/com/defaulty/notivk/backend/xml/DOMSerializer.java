@@ -13,6 +13,12 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+/**
+ *  Origin code from: Java and XML, 2nd Edition Brett McLaughlin
+ *
+ *@author     Siarhej Berdachuk
+ *@version    1.0
+ */
 public class DOMSerializer {
 
     private String indent;
@@ -32,19 +38,19 @@ public class DOMSerializer {
         serialize(doc, writer);
     }
 
-    public void serialize(Document doc, File file) throws IOException {
+    void serialize(Document doc, File file) throws IOException {
         Writer writer = new FileWriter(file);
         serialize(doc, writer);
     }
 
-    public void serialize(Document doc, Writer writer) throws IOException {
+    private void serialize(Document doc, Writer writer) throws IOException {
         // Start serialization recursion with no indenting
         serializeNode(doc, writer, "");
         writer.flush();
     }
 
-    public void serializeNode(Node node, Writer writer,
-                              String indentLevel) throws IOException {
+    private void serializeNode(Node node, Writer writer,
+                               String indentLevel) throws IOException {
         // Determine action based on node type
         switch (node.getNodeType()) {
 

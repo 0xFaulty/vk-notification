@@ -13,27 +13,22 @@ import javax.swing.*;
 
 import javafx.beans.value.*;
 
+/**
+ * The class {@code Browser} представляет собой простое окно браузера с
+ * возможностью назначения listener(а) на событие смены локации.
+ */
 public class Browser {
 
     private JFrame mainFrame = null;
     private WebEngine webEngine = null;
 
-    private String currentLocation = null;
+    private String currentLocation = "https://www.google.ru/";
     private String startUrl = null;
-    private int viewWidth;
-    private int viewHeight;
+    private boolean visible = true;
+    private int viewWidth = 700;
+    private int viewHeight = 600;
 
     private Runnable runnableListener;
-
-    public Browser(String startUrl, int width, int height) {
-        this.startUrl = startUrl;
-        this.viewWidth = width;
-        this.viewHeight = height;
-    }
-
-    public void run() {
-        SwingUtilities.invokeLater(this::initAndShowGUI);
-    }
 
     private void initAndShowGUI() {
         mainFrame = new JFrame("FX");
@@ -50,8 +45,7 @@ public class Browser {
         mainFrame.pack();
         mainFrame.setResizable(false);
         mainFrame.setLocationRelativeTo(null);
-        mainFrame.setVisible(true);
-        // this will run initFX as JavaFX-Thread
+        mainFrame.setVisible(visible);
         Platform.runLater(() -> initFX(fxPanel));
     }
 
@@ -78,16 +72,24 @@ public class Browser {
     }
 
     public void hideBrowser() {
-        mainFrame.setVisible(false);
-        mainFrame.setLocationRelativeTo(null);
-        java.net.CookieHandler.setDefault(new java.net.CookieManager());
+        if (mainFrame != null) {
+            mainFrame.setVisible(false);
+            mainFrame.setLocationRelativeTo(null);
+            java.net.CookieHandler.setDefault(new java.net.CookieManager());
+        } else
+            visible = false;
     }
 
     public void loadUrl(String url) {
-        Platform.runLater(() -> {
-            webEngine.load(url);
-            mainFrame.setVisible(true);
-        });
+        if (mainFrame == null) {
+            startUrl = url;
+            SwingUtilities.invokeLater(this::initAndShowGUI);
+        } else {
+            Platform.runLater(() -> {
+                webEngine.load(url);
+                mainFrame.setVisible(true);
+            });
+        }
     }
 
     public String getLocation() {
@@ -102,6 +104,9 @@ public class Browser {
         Platform.runLater(() -> webEngine.reload());
     }
 
+    public Runnable getRunnableListener() {
+        return runnableListener;
+    }
 }
 
 

@@ -3,42 +3,39 @@ package com.defaulty.notivk.backend;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The class {@code GroupData} содержит данные о группе.
+ * groupId - идентификационный номер группы,
+ * tags - список тегов указанных пользователем для фильтрации постов с группы,
+ * enableTags - флаг применения фильтра по тегам.
+ */
 class GroupData {
 
     private String groupId = "";
-    private String groupNameId = "";
     private List<String> tags = new ArrayList<>();
     private Boolean enableTags = false;
 
-    public String getGroupId() {
+    String getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(String groupId) {
+    void setGroupId(String groupId) {
         this.groupId = groupId;
     }
 
-    public String getGroupNameId() {
-        return groupNameId;
-    }
-
-    public void setGroupNameId(String groupNameId) {
-        this.groupNameId = groupNameId;
-    }
-
-    public List<String> getTags() {
+    List<String> getTags() {
         return tags;
     }
 
-    public void setTags(List<String> tags) {
+    void setTags(List<String> tags) {
         this.tags = tags;
     }
 
-    public Boolean isEnableTags() {
+    Boolean isEnableTags() {
         return enableTags;
     }
 
-    public void setEnableTags(boolean enableTags) {
+    void setEnableTags(boolean enableTags) {
         this.enableTags = enableTags;
     }
 }

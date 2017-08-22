@@ -11,12 +11,15 @@ import com.vk.api.sdk.exceptions.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The abstract class {@code Request} включает в себя общие методы контейнера запроса.
+ */
 public abstract class Request implements Runnable {
 
-    protected static VKSDK vksdk = VKSDK.getInstance();
-    protected static Pool pool = PoolImpl.getInstance();
+    static VKSDK vksdk = VKSDK.getInstance();
+    static Pool pool = PoolImpl.getInstance();
 
-    private static int lastRequestId = 0;
+    private static int lastRequestId;
     private int requestId;
 
     private RequestState requestState;
@@ -26,22 +29,14 @@ public abstract class Request implements Runnable {
     public Request(RequestType requestType, BackPoint backPoint) {
         this.requestType = requestType;
         this.backPoint = backPoint;
-        this.requestState = RequestState.Added;
+        this.requestState = RequestState.ADD;
     }
 
-    public void send(Pool pool) {
-        if (pool != null) {
-            //this.pool = pool; //TODO: сделать pool не singleton
-            pool.addRequest(this);
-        } else
-            throw new IllegalArgumentException("Poll must be not null");
-    }
-
-    protected void setRequestId(int requestId) {
+    void setRequestId(int requestId) {
         this.requestId = requestId;
     }
 
-    public int getRequestId() {
+    int getRequestId() {
         return requestId;
     }
 
@@ -49,16 +44,15 @@ public abstract class Request implements Runnable {
         return requestType;
     }
 
-    protected int generateNext() {
-        lastRequestId++;
-        return lastRequestId;
+    int generateNext() {
+        return ++lastRequestId;
     }
 
-    public void setBackPoint(BackPoint backPoint) {
+    void setBackPoint(BackPoint backPoint) {
         this.backPoint = backPoint;
     }
 
-    public RequestState getRequestState() {
+    RequestState getRequestState() {
         return requestState;
     }
 
@@ -85,25 +79,31 @@ public abstract class Request implements Runnable {
     }
 
     private synchronized void goBackPoint() {
-        List<Request> list = new ArrayList<>();
-        list.add(this);
-        backPoint.request(list);
+        if (backPoint != null) {
+            List<Request> list = new ArrayList<>();
+            list.add(this);
+            backPoint.send(list);
+        }
     }
 
     public synchronized void run() {
         try {
             processRequest();
-            requestState = RequestState.Finished;
+            requestState = RequestState.FINISH;
         } catch (ApiTooManyException e) {
-            requestState = RequestState.Added;
-            //System.out.println("Too many requests, set RequestState.Added for " + requestType);
+            requestState = RequestState.ADD;
+        } catch (ClientException e) {
+            if (e.getMessage().indexOf("Code is invalid or expired.") > 0)
+                requestState = RequestState.FINISH;
+            else
+                requestState = RequestState.ADD;
         } catch (ApiParamException | ApiAccessException e) {
-            requestState = RequestState.Finished;
+            requestState = RequestState.FINISH;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         pool.sendThreadFinish(this);
-        if (requestState == RequestState.Finished) goBackPoint();
+        if (requestState == RequestState.FINISH) goBackPoint();
 
     }
 

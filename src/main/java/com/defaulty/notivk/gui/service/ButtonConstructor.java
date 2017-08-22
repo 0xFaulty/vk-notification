@@ -1,18 +1,24 @@
 package com.defaulty.notivk.gui.service;
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * The class {@code ButtonConstructor} используется для создания кнопок с
+ * фиксированным оформлением.
+ */
 public class ButtonConstructor {
 
     private static Design design = Design.getInstance();
 
-    public JPanel getFullPanelButton(String text, ActionListener actionListener, Dimension dimension) {
-        JButton newButton = getSimpleButton(text, actionListener);
-        newButton.setPreferredSize(dimension);
+    public JPanel getFullPanelButton(@NotNull String text, @NotNull ActionListener listener, @NotNull Dimension dim) {
+        JButton newButton = getSimpleButton(text, listener);
+        newButton.setPreferredSize(dim);
 
         newButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -34,9 +40,9 @@ public class ButtonConstructor {
         return newPanel;
     }
 
-    public JButton getSimpleButton(String text, ActionListener actionListener) {
+    public JButton getSimpleButton(@NotNull String text, @NotNull ActionListener listener) {
         JButton newButton = new JButton(text);
-        newButton.addActionListener(actionListener);
+        newButton.addActionListener(listener);
         newButton.setFocusPainted(false);
         newButton.setBackground(design.getBackgroundColor());
         newButton.setFont(design.getFirstBoldFont());

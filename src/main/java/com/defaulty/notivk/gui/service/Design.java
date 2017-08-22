@@ -4,6 +4,9 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
+/**
+ * The class {@code Design} содержит все настройки оформления приложения.
+ */
 public class Design {
 
     private static Design ourInstance;
@@ -13,7 +16,6 @@ public class Design {
         return ourInstance;
     }
 
-    //Getters for colors and fonts
     public Color getBackgroundColor() {
         return backgroundColor;
     }

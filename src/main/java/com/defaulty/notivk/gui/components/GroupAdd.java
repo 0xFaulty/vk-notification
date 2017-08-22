@@ -8,6 +8,7 @@ import com.defaulty.notivk.gui.GUI;
 import com.defaulty.notivk.gui.service.ButtonConstructor;
 import com.defaulty.notivk.gui.service.PanelConstructor;
 import com.vk.api.sdk.objects.groups.GroupFull;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -15,6 +16,9 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * The class {@code GroupAdd} представляет собой окно добавления групп.
+ */
 public class GroupAdd extends JFrame {
 
     private PanelConstructor previewPanel = new PanelConstructor(PanelConstructor.PanelType.GroupPreview);
@@ -22,8 +26,7 @@ public class GroupAdd extends JFrame {
     private JPanel groupInfoPanel;
     private String lastGroupId;
 
-    public GroupAdd(String title, String label, String button) {
-
+    public GroupAdd(@NotNull String title, @NotNull String label, @NotNull String button) {
         super(title);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -75,21 +78,23 @@ public class GroupAdd extends JFrame {
     }
 
     private void addGroupPreview(List<Request> requestList) {
-        GroupRequest groupRequest = (GroupRequest) requestList.get(0);
-        GroupFull groupFull = groupRequest.getResponse();
-        if (groupRequest.getGroupName().equals(detectGroupName(jTextField.getText()))) {
-            if (groupFull != null) {
-                lastGroupId = groupFull.getId();
-                previewPanel.updatePanel(groupFull);
-                groupInfoPanel.setVisible(true);
-            } else
-                groupInfoPanel.setVisible(false);
+        if (requestList != null && !requestList.isEmpty()) {
+            GroupRequest groupRequest = (GroupRequest) requestList.get(0);
+            GroupFull groupFull = groupRequest.getResponse();
+            if (groupRequest.getGroupName().equals(detectGroupName(jTextField.getText()))) {
+                if (groupFull != null) {
+                    lastGroupId = groupFull.getId();
+                    previewPanel.updatePanel(groupFull);
+                    groupInfoPanel.setVisible(true);
+                } else
+                    groupInfoPanel.setVisible(false);
+            }
         }
     }
 
     private void addGroup() {
         if (lastGroupId != null) {
-            if (!SettingsWrapper.getInstance().getGroupsIdsList().contains(lastGroupId)) {
+            if (!SettingsWrapper.getInstance().getGroupIdList().contains(lastGroupId)) {
                 GUI.getInstance().guiAddNewGroupToPanel(lastGroupId);
             } else {
                 JOptionPane.showMessageDialog(null, "Указанная группа уже есть в списке");
@@ -98,7 +103,7 @@ public class GroupAdd extends JFrame {
             JOptionPane.showMessageDialog(null, "Группа не определена");
     }
 
-    private String detectGroupName(String string) {
+    String detectGroupName(String string) {
         string = string.replace("/club", "/");
         int sepPos = string.lastIndexOf("/");
         if (sepPos < 0) sepPos = 0;

@@ -1,13 +1,16 @@
 package com.defaulty.notivk.gui.panels;
 
-import com.defaulty.notivk.gui.service.ButtonConstructor;
-import com.defaulty.notivk.gui.service.Design;
 import com.defaulty.notivk.gui.components.GroupAdd;
+import com.defaulty.notivk.gui.service.ButtonConstructor;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
+/**
+ * The class {@code RightGroups} представляет собой правую панель отвечающую за
+ * отображения добавленных групп, а также за задание настроек для этих групп.
+ */
 public class RightGroups extends Panel {
 
     public JPanel getPanel() {

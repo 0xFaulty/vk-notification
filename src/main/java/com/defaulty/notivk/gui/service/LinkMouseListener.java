@@ -5,12 +5,16 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * The class {@code LinkMouseListener} представляет собой listener
+ * для подсветки ссылок.
+ */
 public class LinkMouseListener extends MouseAdapter {
 
     private static Design design = Design.getInstance();
-    private ExecutePoint executePoint;
+    private Runnable executePoint;
 
-    public LinkMouseListener(ExecutePoint executePoint) {
+    public LinkMouseListener(Runnable executePoint) {
         this.executePoint = executePoint;
     }
 
@@ -37,6 +41,6 @@ public class LinkMouseListener extends MouseAdapter {
     @Override
     public void mouseClicked(MouseEvent e) {
         super.mouseClicked(e);
-        executePoint.execute();
+        executePoint.run();
     }
 }

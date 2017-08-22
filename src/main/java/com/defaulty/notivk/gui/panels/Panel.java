@@ -5,7 +5,7 @@ import com.defaulty.notivk.gui.service.Design;
 import javax.swing.*;
 
 /**
- * 18/07/2017
+ * The abstract class {@code Panel} включает в себя общие методы панелей меню.
  */
 public abstract class Panel {
 

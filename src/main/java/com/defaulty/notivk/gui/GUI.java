@@ -1,5 +1,6 @@
 package com.defaulty.notivk.gui;
 
+import com.defaulty.Main;
 import com.defaulty.notivk.backend.SettingsWrapper;
 import com.defaulty.notivk.backend.threadpool.Pool;
 import com.defaulty.notivk.backend.threadpool.PoolImpl;
@@ -11,20 +12,28 @@ import com.defaulty.notivk.gui.components.Browser;
 import com.defaulty.notivk.gui.panels.*;
 import com.defaulty.notivk.gui.service.Design;
 import com.defaulty.notivk.gui.service.PanelConstructor;
-import com.defaulty.notivk.gui.service.PanelController;
+import com.defaulty.notivk.gui.service.PostPanelController;
 import com.vk.api.sdk.objects.groups.GroupFull;
 import com.vk.api.sdk.objects.wall.responses.GetResponse;
+import javafx.application.Application;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * The class {@code GUI} создаёт главное окно программы и предоставляет методы
+ * взаимодействия с ним.
+ */
 public class GUI extends JFrame {
 
     private static GUI ourInstance = new GUI();
@@ -33,8 +42,8 @@ public class GUI extends JFrame {
     private static Pool pool = PoolImpl.getInstance();
 
     private Runnable executeRun;
-    private Browser browser = null;
-    private PanelController panelController = new PanelController();
+    private Browser browser = new Browser();
+    private PostPanelController postPanelController = new PostPanelController();
 
     private JPanel mainPanelsContainer = new JPanel();
     private LeftMenu leftMenu = new LeftMenu();
@@ -70,6 +79,13 @@ public class GUI extends JFrame {
             }
         });
         addWindowStateListener(e -> resizePanels());
+        InputStream is = Main.class.getClassLoader().getResourceAsStream("update.png");
+        try {
+            Image image = new ImageIcon(ImageIO.read(is)).getImage();
+            this.setIconImage(image);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         super.pack();
         super.setLocationRelativeTo(null);
         super.setVisible(true);
@@ -99,18 +115,18 @@ public class GUI extends JFrame {
         rightSettings.setVisible(false);
         rightUpdate.setVisible(false);
         switch (type) {
-            case Posts:
+            case POST:
                 if (rightUpdate.isInProcess())
                     rightUpdate.setVisible(true);
                 rightPosts.setVisible(true);
                 break;
-            case Groups:
+            case PANEL:
                 rightGroups.setVisible(true);
                 break;
-            case Settings:
+            case SETTINGS:
                 rightSettings.setVisible(true);
                 break;
-            case Update:
+            case UPDATE:
                 rightUpdate.setVisible(true);
                 break;
         }
@@ -123,30 +139,25 @@ public class GUI extends JFrame {
     }
 
     public void addPostFromResponse(ArrayList<GetResponse> response, List<GroupFull> groupFullList) {
-        panelController.addPosts(response, groupFullList);
-        addPosts();
-        System.out.println("GUI:addPostFromResponse");
-        rightUpdate.setVisible(false);
-        rightUpdate.setInProcess(false);
-        resizePanels();
-        rightPosts.repaintComponent();
-    }
-
-    private void addPosts() {
-        ArrayList<PanelConstructor> panelConstructors = panelController.getPanelConstructors();
+        postPanelController.addPosts(response, groupFullList);
+        List<PanelConstructor> panelConstructors = postPanelController.getPanelConstructors();
         for (PanelConstructor panelConstructor : panelConstructors) {
             if (!panelConstructor.isAddToContentPanel()) {
                 rightPosts.add(panelConstructor.getPanel(), 0);
                 panelConstructor.setAddToContentPanel();
             }
         }
+        rightUpdate.setVisible(false);
+        rightUpdate.setInProcess(false);
+        resizePanels();
+        rightPosts.repaintComponent();
     }
 
     public void refreshList() {
-        if (settings.getGroupsIdsList().size() > 0) {
+        if (settings.getGroupIdList().size() > 0) {
             rightUpdate.setVisible(true);
             rightUpdate.setInProcess(true);
-            panelController.clearArray();
+            postPanelController.clearArray();
             rightPosts.removeAll();
             rightPosts.repaintComponent();
             new Thread(executeRun).start();
@@ -178,15 +189,17 @@ public class GUI extends JFrame {
     }
 
     public void refreshGroupsPanel() {
-        pool.addRequest(new GroupRequest(settings.getGroupsIdsList(), settings.getUserData(), this::addGroupFromResponse));
+        pool.addRequest(new GroupRequest(settings.getGroupIdList(), settings.getUserData(), this::addGroupFromResponse));
     }
 
     private void addGroupFromResponse(List<Request> requestList) {
-        GroupRequest groupRequest = (GroupRequest) requestList.get(0);
-        List<GroupFull> groupFull = groupRequest.getResponseList();
-        for (GroupFull group : groupFull)
-            addGroupFromResponse(group);
-        rightGroups.repaintComponent();
+        if (requestList != null && !requestList.isEmpty()) {
+            GroupRequest groupRequest = (GroupRequest) requestList.get(0);
+            List<GroupFull> groupFull = groupRequest.getResponseList();
+            for (GroupFull group : groupFull)
+                addGroupFromResponse(group);
+            rightGroups.repaintComponent();
+        }
     }
 
     private void addGroupFromResponse(GroupFull groupFull) {
@@ -200,12 +213,14 @@ public class GUI extends JFrame {
     }
 
     private void guiAddNewGroupFromResponse(List<Request> requestList) {
-        GroupRequest groupRequest = (GroupRequest) requestList.get(0);
-        GroupFull groupFull = groupRequest.getResponse();
-        settings.addGroupId(groupFull.getId());
-        settings.save();
-        addGroupFromResponse(groupFull);
-        rightGroups.repaintComponent();
+        if (requestList != null && !requestList.isEmpty()) {
+            GroupRequest groupRequest = (GroupRequest) requestList.get(0);
+            GroupFull groupFull = groupRequest.getResponse();
+            settings.addGroupId(groupFull.getId());
+            settings.save();
+            addGroupFromResponse(groupFull);
+            rightGroups.repaintComponent();
+        }
     }
 
     public void getUserPanelInfo() {
@@ -213,13 +228,15 @@ public class GUI extends JFrame {
     }
 
     private void setUserPanelInfo(List<Request> requestList) {
-        ProfileRequest profileRequest = (ProfileRequest) requestList.get(0);
-        PanelConstructor panelConstructor = new PanelConstructor(PanelConstructor.PanelType.Info);
-        panelConstructor.updatePanel(profileRequest.getResponse());
-        panelConstructor.setPanelColor(design.getBackgroundColor());
-        leftMenu.removeAll();
-        leftMenu.add(panelConstructor.getPanel());
-        leftMenu.repaintComponent();
+        if (requestList != null && !requestList.isEmpty()) {
+            ProfileRequest profileRequest = (ProfileRequest) requestList.get(0);
+            PanelConstructor panelConstructor = new PanelConstructor(PanelConstructor.PanelType.Info);
+            panelConstructor.updatePanel(profileRequest.getResponse());
+            panelConstructor.setPanelColor(design.getBackgroundColor());
+            leftMenu.removeAll();
+            leftMenu.add(panelConstructor.getPanel());
+            leftMenu.repaintComponent();
+        }
     }
 
     private void resizePanels() {
@@ -241,7 +258,7 @@ public class GUI extends JFrame {
         rightGroups.setBounds(0, 0, rightWidth, rightHeight);
         rightSettings.setBounds(0, 0, rightWidth, rightHeight);
 
-        ArrayList<PanelConstructor> panelConstructors = panelController.getPanelConstructors();
+        List<PanelConstructor> panelConstructors = postPanelController.getPanelConstructors();
         for (PanelConstructor pc : panelConstructors)
             pc.setSize(rightWidth);
 
@@ -278,8 +295,7 @@ public class GUI extends JFrame {
                 "&response_type=code" +
                 "&v=" + apiVersion;
 
-        if (browser == null) {
-            browser = new Browser(startURL, 700, 600);
+        if (browser.getRunnableListener() == null) {
             browser.setListenerClass(() -> {
                 String url = browser.getLocation();
                 int codePos = url.indexOf("#code=");
@@ -288,19 +304,20 @@ public class GUI extends JFrame {
                     pool.addRequest(new CodeRequest(url.substring(codePos + 6, url.length()), this::processUserData));
                 }
             });
-            browser.run();
-        } else
-            browser.loadUrl(startURL);
+        }
+        browser.loadUrl(startURL);
     }
 
     private void processUserData(List<Request> requestList) {
-        CodeRequest codeRequest = (CodeRequest) requestList.get(0);
-        if (settings.setUserData(codeRequest.getResponse())) {
-            settings.save();
-            getUserPanelInfo();
-            super.setEnabled(true);
-        } else
-            openBrowser();
+        if (requestList != null && !requestList.isEmpty()) {
+            CodeRequest codeRequest = (CodeRequest) requestList.get(0);
+            if (settings.setUserData(codeRequest.getResponse())) {
+                settings.save();
+                getUserPanelInfo();
+                super.setEnabled(true);
+            } else
+                openBrowser();
+        }
     }
 
 }
