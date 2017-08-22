@@ -6,50 +6,124 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8bb61939-b00b-49d7-be50-d4940d34e8cc" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/service/ExecutePoint.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test/java/com/defaulty/notivk/MainControllerTest.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/MainController.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/NotifyController.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/service/PanelController.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/service/PostPanelController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/notivk.jar" afterPath="$PROJECT_DIR$/notivk.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+    <list default="true" id="8bb61939-b00b-49d7-be50-d4940d34e8cc" name="Default" comment="Test and Docs added&#10;Bug fix">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/allclasses-frame.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/allclasses-noframe.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/Main.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/NotifyController.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/NotifyControllerTest.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/SettingsWrapper.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/SettingsWrapperTest.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/UserData.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/VKSDK.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/package-frame.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/package-summary.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/package-tree.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/threadpool/BackPoint.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/threadpool/Pool.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/threadpool/PoolImpl.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/threadpool/PoolImplTest.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/threadpool/package-frame.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/threadpool/package-summary.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/threadpool/package-tree.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/threadpool/requests/CodeRequest.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/threadpool/requests/GroupRequest.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/threadpool/requests/MultiRequest.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/threadpool/requests/ProfileRequest.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/threadpool/requests/Request.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/threadpool/requests/WallRequest.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/threadpool/requests/enums/RequestState.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/threadpool/requests/enums/RequestType.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/threadpool/requests/enums/package-frame.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/threadpool/requests/enums/package-summary.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/threadpool/requests/enums/package-tree.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/threadpool/requests/package-frame.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/threadpool/requests/package-summary.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/threadpool/requests/package-tree.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/xml/AppSettings.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/xml/DOMSerializer.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/xml/package-frame.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/xml/package-summary.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/backend/xml/package-tree.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/GUI.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/components/Browser.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/components/BrowserTest.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/components/CustomPanel.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/components/GroupAdd.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/components/GroupAddTest.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/components/GroupSettings.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/components/GroupSettingsTest.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/components/PopupPanel.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/components/RotatePanel.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/components/package-frame.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/components/package-summary.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/components/package-tree.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/package-frame.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/package-summary.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/package-tree.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/panels/EnumPanels.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/panels/LeftMenu.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/panels/Panel.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/panels/RightGroups.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/panels/RightPosts.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/panels/RightSettings.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/panels/RightUpdate.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/panels/package-frame.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/panels/package-summary.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/panels/package-tree.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/service/ButtonConstructor.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/service/Design.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/service/LinkMouseListener.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/service/PanelConstructor.PanelType.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/service/PanelConstructor.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/service/PanelConstructorTest.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/service/PostPanelController.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/service/package-frame.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/service/package-summary.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/gui/service/package-tree.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/package-frame.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/package-summary.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/notivk/package-tree.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/package-frame.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/package-summary.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/com/defaulty/package-tree.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/constant-values.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/deprecated-list.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/help-doc.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/index-files/index-1.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/index-files/index-10.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/index-files/index-11.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/index-files/index-12.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/index-files/index-13.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/index-files/index-14.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/index-files/index-15.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/index-files/index-16.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/index-files/index-17.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/index-files/index-18.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/index-files/index-19.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/index-files/index-2.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/index-files/index-3.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/index-files/index-4.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/index-files/index-5.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/index-files/index-6.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/index-files/index-7.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/index-files/index-8.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/index-files/index-9.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/overview-frame.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/overview-summary.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/overview-tree.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/package-list" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/script.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/serialized-form.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/stylesheet.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/com/defaulty/notivk/backend/SettingsWrapperTest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/com/defaulty/notivk/backend/threadpool/PoolImplTest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/com/defaulty/notivk/gui/components/BrowserTest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/com/defaulty/notivk/gui/components/GroupAddTest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/com/defaulty/notivk/gui/components/GroupSettingsTest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/com/defaulty/notivk/gui/service/PanelConstructorTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/Main.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/GroupData.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/GroupData.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/SettingsWrapper.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/SettingsWrapper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/UserData.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/UserData.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/VKSDK.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/VKSDK.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/threadpool/BackPoint.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/threadpool/BackPoint.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/threadpool/Pool.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/threadpool/Pool.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/threadpool/PoolImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/threadpool/PoolImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/threadpool/requests/CodeRequest.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/threadpool/requests/CodeRequest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/threadpool/requests/GroupRequest.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/threadpool/requests/GroupRequest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/threadpool/requests/MultiRequest.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/threadpool/requests/MultiRequest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/threadpool/requests/ProfileRequest.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/threadpool/requests/ProfileRequest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/threadpool/requests/Request.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/threadpool/requests/Request.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/threadpool/requests/WallRequest.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/threadpool/requests/WallRequest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/threadpool/requests/enums/RequestState.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/threadpool/requests/enums/RequestState.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/threadpool/requests/enums/RequestType.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/threadpool/requests/enums/RequestType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/xml/AppSettings.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/xml/AppSettings.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/xml/DOMSerializer.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/xml/DOMSerializer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/GUI.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/GUI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/components/Browser.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/components/Browser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/components/CustomPanel.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/components/CustomPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/components/GroupAdd.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/components/GroupAdd.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/components/GroupSettings.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/components/GroupSettings.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/components/PopupPanel.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/components/PopupPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/components/RotatePanel.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/components/RotatePanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/panels/EnumPanels.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/panels/EnumPanels.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/panels/LeftMenu.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/panels/LeftMenu.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/panels/Panel.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/panels/Panel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/panels/RightGroups.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/panels/RightGroups.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/panels/RightPosts.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/panels/RightPosts.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/panels/RightSettings.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/panels/RightSettings.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/panels/RightUpdate.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/panels/RightUpdate.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/service/ButtonConstructor.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/service/ButtonConstructor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/service/Design.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/service/Design.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/service/LinkMouseListener.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/service/LinkMouseListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/service/PanelConstructor.java" afterPath="$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/service/PanelConstructor.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -64,16 +138,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="PanelConstructor.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/defaulty/notivk/gui/service/PanelConstructor.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-95">
-              <caret line="457" column="19" lean-forward="false" selection-start-line="457" selection-start-column="19" selection-end-line="457" selection-end-column="19" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="PanelConstructorTest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/com/defaulty/notivk/gui/service/PanelConstructorTest.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -124,11 +188,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NotifyController.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="NotifyController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/defaulty/notivk/NotifyController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-711">
-              <caret line="26" column="29" lean-forward="false" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="29" />
+            <state relative-caret-position="433">
+              <caret line="78" column="53" lean-forward="true" selection-start-line="78" selection-start-column="53" selection-end-line="78" selection-end-column="53" />
               <folding />
             </state>
           </provider>
@@ -144,11 +208,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PoolImplTest.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="PoolImplTest.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/test/java/com/defaulty/notivk/backend/threadpool/PoolImplTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="154">
-              <caret line="13" column="76" lean-forward="false" selection-start-line="13" selection-start-column="76" selection-end-line="13" selection-end-column="76" />
+            <state relative-caret-position="506">
+              <caret line="29" column="45" lean-forward="true" selection-start-line="29" selection-start-column="45" selection-end-line="29" selection-end-column="45" />
               <folding />
             </state>
           </provider>
@@ -305,6 +369,11 @@
             <path>
               <item name="notivk" type="b2602c69:ProjectViewProjectNode" />
               <item name="vk-notification" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="notivk" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vk-notification" type="462c0819:PsiDirectoryNode" />
+              <item name="others" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="notivk" type="b2602c69:ProjectViewProjectNode" />
@@ -738,8 +807,16 @@
       <workItem from="1502534349159" duration="20169000" />
       <workItem from="1503306959631" duration="3447000" />
       <workItem from="1503324340780" duration="12968000" />
-      <workItem from="1503390836234" duration="12945000" />
+      <workItem from="1503390836234" duration="13562000" />
     </task>
+    <task id="LOCAL-00001" summary="Test added&#10;Bug fix">
+      <created>1503430340215</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1503430340215</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -775,7 +852,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="78626000" />
+    <option name="totallyTimeSpent" value="79243000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="2576" height="1056" extended-state="6" />
@@ -783,14 +860,14 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32899022" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32899022" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1324647" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1324647" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32899022" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -816,6 +893,12 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_NEW_TODO" value="false" />
+    <MESSAGE value="Test added&#10;Bug fix" />
+    <MESSAGE value="Test and Docs added&#10;Bug fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="Test and Docs added&#10;Bug fix" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <option name="time" value="34" />
@@ -827,13 +910,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$MAVEN_REPOSITORY$/com/vk/api/sdk/0.5.2/sdk-0.5.2.jar!/com/vk/api/sdk/exceptions/ApiTooManyException.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/defaulty/notivk/backend/threadpool/requests/ProfileRequest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="110">
@@ -862,6 +938,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
           <caret line="10" column="9" lean-forward="false" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="9" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1130,7 +1207,7 @@
         <state relative-caret-position="389">
           <caret line="33" column="0" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
           <folding>
-            <element signature="e#973#974#0" expanded="true" />
+            <element signature="e#973#974#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1148,7 +1225,7 @@
         <state relative-caret-position="144">
           <caret line="173" column="0" lean-forward="false" selection-start-line="173" selection-start-column="0" selection-end-line="173" selection-end-column="0" />
           <folding>
-            <element signature="e#6271#6272#0" expanded="true" />
+            <element signature="e#6271#6272#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1225,18 +1302,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/defaulty/notivk/backend/threadpool/PoolImplTest.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/defaulty/notivk/NotifyController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="13" column="76" lean-forward="false" selection-start-line="13" selection-start-column="76" selection-end-line="13" selection-end-column="76" />
+        <state relative-caret-position="433">
+          <caret line="78" column="53" lean-forward="true" selection-start-line="78" selection-start-column="53" selection-end-line="78" selection-end-column="53" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/defaulty/notivk/NotifyController.java">
+    <entry file="file://$PROJECT_DIR$/doc/stylesheet.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-711">
-          <caret line="26" column="29" lean-forward="false" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="29" />
+        <state relative-caret-position="110">
+          <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/defaulty/notivk/backend/threadpool/PoolImplTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="506">
+          <caret line="29" column="45" lean-forward="true" selection-start-line="29" selection-start-column="45" selection-end-line="29" selection-end-column="45" />
           <folding />
         </state>
       </provider>

@@ -1,0 +1,11 @@
+com.defaulty
+com.defaulty.notivk
+com.defaulty.notivk.backend
+com.defaulty.notivk.backend.threadpool
+com.defaulty.notivk.backend.threadpool.requests
+com.defaulty.notivk.backend.threadpool.requests.enums
+com.defaulty.notivk.backend.xml
+com.defaulty.notivk.gui
+com.defaulty.notivk.gui.components
+com.defaulty.notivk.gui.panels
+com.defaulty.notivk.gui.service
