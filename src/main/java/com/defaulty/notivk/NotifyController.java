@@ -11,7 +11,6 @@ import com.defaulty.notivk.backend.threadpool.requests.enums.RequestType;
 import com.defaulty.notivk.gui.GUI;
 import com.vk.api.sdk.objects.groups.GroupFull;
 import com.vk.api.sdk.objects.wall.responses.GetResponse;
-import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -75,7 +74,6 @@ public class NotifyController extends TimerTask {
         }
     }
 
-    @Nullable
     private List<String> getGroupListFromSettings() {
         if (settings.isUserDataSet() && !settings.getGroupDataList().isEmpty())
             return settings.getGroupIdList();

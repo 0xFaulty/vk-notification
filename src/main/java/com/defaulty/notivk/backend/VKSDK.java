@@ -12,8 +12,6 @@ import com.vk.api.sdk.objects.users.UserXtrCounters;
 import com.vk.api.sdk.objects.wall.responses.GetResponse;
 import com.vk.api.sdk.queries.groups.GroupField;
 import com.vk.api.sdk.queries.users.UserField;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +47,6 @@ public class VKSDK {
         return new UserData(authResponse.getUserId(), authResponse.getAccessToken());
     }
 
-    @Nullable
     public GetResponse getWall(String domain, UserData userData, int count, int offset) throws ClientException, ApiException {
         UserActor actor = new UserActor(userData.getIntUserId(), userData.getAccessToken());
         return vk.wall().get(actor)
@@ -59,7 +56,6 @@ public class VKSDK {
                 .execute();
     }
 
-    @Nullable
     public GetResponse getWall(int ownerId, UserData userData, int count, int offset) throws ClientException, ApiException {
         UserActor actor = new UserActor(userData.getIntUserId(), userData.getAccessToken());
         return vk.wall().get(actor)
@@ -69,12 +65,10 @@ public class VKSDK {
                 .execute();
     }
 
-    @Nullable
     public ArrayList<GroupFull> getGroupData(List<String> groupNames, UserData userData) throws ClientException, ApiException {
         return getGroupResponse(groupNames, userData);
     }
 
-    @Nullable
     public GroupFull getGroupData(String groupName, UserData userData) throws ClientException, ApiException {
         List<String> stringList = new ArrayList<>();
         stringList.add(groupName);
@@ -85,7 +79,6 @@ public class VKSDK {
         return null;
     }
 
-    @NotNull
     private ArrayList<GroupFull> getGroupResponse(List<String> groupNames, UserData userData) throws ClientException, ApiException {
         UserActor actor = new UserActor(userData.getIntUserId(), userData.getAccessToken());
         List<GroupFull> groups = vk.groups().getById(actor)
@@ -95,12 +88,10 @@ public class VKSDK {
         return new ArrayList<>(groups);
     }
 
-    @Nullable
     public List<UserXtrCounters> getUserInfo(List<String> userIds, UserData userData) throws ClientException, ApiException {
         return getUserInfoResponse(userIds, userData);
     }
 
-    @Nullable
     public UserXtrCounters getUserInfo(String userId, UserData userData) throws ClientException, ApiException {
         List<String> stringList = new ArrayList<>();
         stringList.add(userId);
@@ -111,7 +102,6 @@ public class VKSDK {
         return null;
     }
 
-    @NotNull
     private List<UserXtrCounters> getUserInfoResponse(List<String> groupNames, UserData userData) throws ClientException, ApiException {
         UserActor actor = new UserActor(userData.getIntUserId(), userData.getAccessToken());
         return new ArrayList<>(vk.users().get(actor)

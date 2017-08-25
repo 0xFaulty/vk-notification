@@ -1,7 +1,5 @@
 package com.defaulty.notivk.gui.service;
 
-import org.jetbrains.annotations.NotNull;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -16,7 +14,7 @@ public class ButtonConstructor {
 
     private static Design design = Design.getInstance();
 
-    public JPanel getFullPanelButton(@NotNull String text, @NotNull ActionListener listener, @NotNull Dimension dim) {
+    public JPanel getFullPanelButton(String text, ActionListener listener, Dimension dim) {
         JButton newButton = getSimpleButton(text, listener);
         newButton.setPreferredSize(dim);
 
@@ -40,7 +38,7 @@ public class ButtonConstructor {
         return newPanel;
     }
 
-    public JButton getSimpleButton(@NotNull String text, @NotNull ActionListener listener) {
+    public JButton getSimpleButton(String text, ActionListener listener) {
         JButton newButton = new JButton(text);
         newButton.addActionListener(listener);
         newButton.setFocusPainted(false);

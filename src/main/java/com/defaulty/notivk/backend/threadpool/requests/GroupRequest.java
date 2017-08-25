@@ -6,7 +6,6 @@ import com.defaulty.notivk.backend.threadpool.requests.enums.RequestType;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.objects.groups.GroupFull;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class GroupRequest extends Request {
     private List<GroupFull> responseList;
     private GroupFull response;
 
-    public GroupRequest(@NotNull List<String> groupIdList, @NotNull UserData userData, BackPoint backPoint) {
+    public GroupRequest(List<String> groupIdList, UserData userData, BackPoint backPoint) {
         super(RequestType.GROUP, backPoint);
         super.setRequestId(0);
         for (String name : groupIdList)
@@ -34,7 +33,7 @@ public class GroupRequest extends Request {
         this.listType = true;
     }
 
-    public GroupRequest(@NotNull String groupId, @NotNull UserData userData, BackPoint backPoint) {
+    public GroupRequest(String groupId, UserData userData, BackPoint backPoint) {
         super(RequestType.GROUP, backPoint);
         super.setRequestId(groupId.hashCode());
         if (groupId.equals("")) throw new IllegalArgumentException("Empty group name");

@@ -6,7 +6,6 @@ import com.defaulty.notivk.backend.threadpool.requests.enums.RequestType;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.objects.wall.responses.GetResponse;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * The class {@code WallRequest} используется для создания и исполнения запросов типа getWall.
@@ -22,7 +21,7 @@ public class WallRequest extends Request {
 
     private GetResponse response;
 
-    public WallRequest(@NotNull String domain, @NotNull UserData userData, int count, int offset, BackPoint backPoint) {
+    public WallRequest(String domain, UserData userData, int count, int offset, BackPoint backPoint) {
         super(RequestType.WALL, backPoint);
         super.setRequestId(domain.hashCode());
         this.typeDomain = true;
@@ -32,7 +31,7 @@ public class WallRequest extends Request {
         this.offset = offset;
     }
 
-    public WallRequest(int ownerId, @NotNull UserData userData, int count, int offset, BackPoint backPoint) {
+    public WallRequest(int ownerId, UserData userData, int count, int offset, BackPoint backPoint) {
         super(RequestType.WALL, backPoint);
         super.setRequestId(Integer.toString(ownerId).hashCode());
         this.typeDomain = false;

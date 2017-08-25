@@ -8,7 +8,6 @@ import com.defaulty.notivk.gui.GUI;
 import com.defaulty.notivk.gui.service.ButtonConstructor;
 import com.defaulty.notivk.gui.service.PanelConstructor;
 import com.vk.api.sdk.objects.groups.GroupFull;
-import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -26,7 +25,7 @@ public class GroupAdd extends JFrame {
     private JPanel groupInfoPanel;
     private String lastGroupId;
 
-    public GroupAdd(@NotNull String title, @NotNull String label, @NotNull String button) {
+    public GroupAdd(String title, String label, String button) {
         super(title);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 

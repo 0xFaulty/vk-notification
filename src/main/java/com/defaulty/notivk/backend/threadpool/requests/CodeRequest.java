@@ -5,7 +5,6 @@ import com.defaulty.notivk.backend.threadpool.BackPoint;
 import com.defaulty.notivk.backend.threadpool.requests.enums.RequestType;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * The class {@code ProfileRequest} используется для создания и исполнения запросов типа getUserAuthData.
@@ -15,7 +14,7 @@ public class CodeRequest extends Request {
     private String code;
     private UserData response;
 
-    public CodeRequest(@NotNull String code, BackPoint backPoint) {
+    public CodeRequest(String code, BackPoint backPoint) {
         super(RequestType.CODE, backPoint);
         super.setRequestId(0);
         this.code = code;

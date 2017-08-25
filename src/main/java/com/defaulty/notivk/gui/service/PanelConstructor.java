@@ -11,7 +11,6 @@ import com.vk.api.sdk.objects.photos.PhotoSizes;
 import com.vk.api.sdk.objects.users.UserXtrCounters;
 import com.vk.api.sdk.objects.video.Video;
 import com.vk.api.sdk.objects.wall.*;
-import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -116,7 +115,7 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
     }
 
     @Override
-    public int compareTo(@NotNull PanelConstructor o) {
+    public int compareTo(PanelConstructor o) {
         return this.timeIdentifier - o.timeIdentifier;
     }
 
@@ -454,7 +453,7 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
         return str;
     }
 
-    public static ImageIcon makeThumbnail(@NotNull ImageIcon icon, int width, int height) {
+    public static ImageIcon makeThumbnail(ImageIcon icon, int width, int height) {
         if (width < 0 || height < 0) throw new IllegalArgumentException("Width or height less zero");
         Dimension dimension = getNewDimension(icon.getIconWidth(), icon.getIconHeight(), width, height);
         return new ImageIcon(icon.getImage().getScaledInstance(dimension.width, dimension.height, Image.SCALE_SMOOTH));
