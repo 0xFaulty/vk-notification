@@ -11,6 +11,10 @@ import com.vk.api.sdk.objects.wall.WallpostFull;
 
 import java.util.List;
 
+/**
+ * The class {@code PostFullParser} обрабатывает контейнер постов {@code WallpostFull}
+ * и находит в нём текст и ссылку на фото.
+ */
 public class PostFullParser {
 
     private String maxPhoto = null;

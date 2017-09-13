@@ -76,7 +76,7 @@ public class PostPanelController {
         panelConstructors.clear();
     }
 
-    boolean checkGroupTags(WallpostFull wp, List<String> checkList) {
+    private boolean checkGroupTags(WallpostFull wp, List<String> checkList) {
         boolean out = false;
         for (String tag : checkList) {
             String first = wp.getText().toUpperCase();

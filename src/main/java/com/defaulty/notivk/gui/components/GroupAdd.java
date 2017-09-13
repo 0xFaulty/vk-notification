@@ -74,6 +74,10 @@ public class GroupAdd extends JFrame {
 
         setPreferredSize(new Dimension(300, 185));
         getContentPane().add(jMainPanel);
+
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
     }
 
     private void addGroupPreview(List<Request> requestList) {

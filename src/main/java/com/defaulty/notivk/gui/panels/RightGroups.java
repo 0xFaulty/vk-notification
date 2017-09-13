@@ -15,12 +15,8 @@ public class RightGroups extends Panel {
 
     public JPanel getPanel() {
         JButton addButton = new ButtonConstructor().getSimpleButton(
-                "Добавить группу", e -> {
-                    GroupAdd dialog = new GroupAdd("Добавить группу", "Введите название:", "Добавить");
-                    dialog.pack();
-                    dialog.setLocationRelativeTo(null); //Центр экрана
-                    dialog.setVisible(true);
-                });
+                "Добавить группу", e ->
+                    new GroupAdd("Добавить группу", "Введите название:", "Добавить"));
 
         addPanel.setLayout(new BoxLayout(addPanel, BoxLayout.PAGE_AXIS));
         JPanel tmpPanel = new JPanel();

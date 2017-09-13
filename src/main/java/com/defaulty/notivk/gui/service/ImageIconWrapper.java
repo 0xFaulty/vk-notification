@@ -4,6 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
 
+/**
+ * The class {@code ImageIconWrapper} представляет собой оболочку класса {@code ImageIcon}
+ * с добавлением метода изменения размера изображения.
+ */
 public class ImageIconWrapper extends ImageIcon implements Icon {
 
     private ImageIcon icon;

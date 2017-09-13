@@ -31,6 +31,7 @@ public class NotifyController extends TimerTask {
 
     public NotifyController() {
         gui.setExecuteRun(this);
+
         SwingUtilities.invokeLater(() -> gui.runGUI(810, 600));
 
         if (!settings.isUserDataSet()) {

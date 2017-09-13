@@ -1,7 +1,7 @@
 package com.defaulty.notivk.gui.components;
 
 import com.defaulty.Main;
-import com.defaulty.notivk.gui.service.PanelConstructor;
+import com.defaulty.notivk.gui.service.ImageIconWrapper;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -23,13 +23,14 @@ public class RotatePanel extends JPanel {
     public RotatePanel() {
         try {
             InputStream is = Main.class.getClassLoader().getResourceAsStream("update.png");
-            ImageIcon icon = PanelConstructor.makeThumbnail(new ImageIcon(ImageIO.read(is)), 150, 150);
+            ImageIconWrapper iiw = new ImageIconWrapper(new ImageIcon(ImageIO.read(is)));
+            iiw.setSize(150, 150);
             bi = new BufferedImage(
-                    icon.getIconWidth(),
-                    icon.getIconHeight(),
+                    iiw.getIconWidth(),
+                    iiw.getIconHeight(),
                     BufferedImage.TYPE_INT_ARGB);
             Graphics g = bi.createGraphics();
-            icon.paintIcon(null, g, 0, 0);
+            iiw.paintIcon(null, g, 0, 0);
             g.dispose();
         } catch (Exception e) {
             e.printStackTrace();

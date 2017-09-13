@@ -4,13 +4,9 @@ import com.defaulty.notivk.backend.SettingsWrapper;
 import com.defaulty.notivk.gui.GUI;
 import com.defaulty.notivk.gui.components.CustomPanel;
 import com.defaulty.notivk.gui.components.GroupSettings;
-import com.vk.api.sdk.objects.docs.Doc;
 import com.vk.api.sdk.objects.groups.GroupFull;
-import com.vk.api.sdk.objects.photos.Photo;
-import com.vk.api.sdk.objects.photos.PhotoSizes;
 import com.vk.api.sdk.objects.users.UserXtrCounters;
-import com.vk.api.sdk.objects.video.Video;
-import com.vk.api.sdk.objects.wall.*;
+import com.vk.api.sdk.objects.wall.WallpostFull;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -25,7 +21,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.TimeZone;
 
 /**
@@ -38,8 +33,10 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
     private static SettingsWrapper settings = SettingsWrapper.getInstance();
     private static Design design = Design.getInstance();
 
-    private int groupPhotoHeight = 50;
-    private int groupPhotoWidth = 50;
+    private final static int groupPhotoHeight = 50;
+    private final static int groupPhotoWidth = 50;
+    private final static int postPhotoWidth = 350;
+    private final static int postPhotoHeight = 350;
 
     private boolean addToContentPanel = false;
     private int timeIdentifier = 0;
@@ -139,13 +136,8 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
     }
 
     public void updatePanel(WallpostFull postFull, GroupFull groupFull) { //POST
-        if (groupFull.getPhoto200() != null) {
-            try {
-                groupImage.setIcon(makeThumbnail(new ImageIcon(new URL(groupFull.getPhoto200())), groupPhotoWidth, groupPhotoHeight));
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-        }
+        if (groupFull.getPhoto200() != null)
+            setImageByURL(groupImage, groupFull.getPhoto200(), groupPhotoWidth, groupPhotoHeight);
 
         groupName.setText(groupFull.getName());
         groupLabel.setText(convertTime(postFull.getDate()));
@@ -154,116 +146,31 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
         idIdentifier = postFull.getId();
         timeIdentifier = postFull.getDate();
 
-        int postPhotoHeight = 350;
-        int postPhotoWidth = 350;
-        Dimension size = new Dimension(postPhotoWidth, postPhotoHeight);
-
-        if (postFull.getCopyHistory() != null && postFull.getCopyHistory().size() > 0)
-            parseWallPost(postFull.getCopyHistory().get(0), postFull.getText(), postText, postImage, size);
-        else {
-            if (postFull.getAttachments() != null)
-                attachmentsParse(postFull.getAttachments().get(0), postFull.getText(), postText, postImage, size);
-        }
-        if (postText.getText().equals("") && postFull.getText() != null)
-            postText.setText(postFull.getText());
-    }
-
-    private void parseWallPost(Wallpost post, String text, JTextArea outText, JLabel outImage, Dimension size) {
-        List<WallpostAttachment> wpaList = post.getAttachments();
-        if (wpaList != null && wpaList.size() > 0) {
-            attachmentsParse(wpaList.get(0), text, outText, outImage, size);
-        }
-    }
-
-    private void attachmentsParse(WallpostAttachment wpa, String text,
-                                  JTextArea outText, JLabel outImage, Dimension size) {
-        String maxPhoto = null;
-        String curText = "";
-
-        if (text != null) text = text + "\n";
-
-        if (wpa.getType() == WallpostAttachmentType.VIDEO) {
-            maxPhoto = getMaxPreview(wpa.getVideo());
-            curText = text + wpa.getVideo().getTitle();
-        }
-        if (wpa.getType() == WallpostAttachmentType.PHOTO) {
-            maxPhoto = getMaxPreview(wpa.getPhoto());
-            curText = text + wpa.getPhoto().getText();
-        }
-        if (wpa.getType() == WallpostAttachmentType.ALBUM) {
-            maxPhoto = getMaxPreview(wpa.getAlbum().getThumb());
-        }
-        if (wpa.getType() == WallpostAttachmentType.DOC) {
-            maxPhoto = getMaxPreview(wpa.getDoc());
-            curText = text + wpa.getDoc().getTitle();
-        }
-        if (wpa.getType() == WallpostAttachmentType.NOTE) {
-            curText = text;
-        }
-        if (wpa.getType() == WallpostAttachmentType.LINK) {
-            maxPhoto = getMaxPreview(wpa.getLink().getPhoto());
-            curText = text;
-        }
-        if (wpa.getType() == WallpostAttachmentType.AUDIO) {
-            curText = text + wpa.getAudio().getArtist() + " - " + wpa.getAudio().getTitle();
-        }
-        if (wpa.getType() == WallpostAttachmentType.GRAFFITI) {
-            maxPhoto = getMaxPreview(wpa.getGraffiti());
-            curText = text;
-        }
-        if (wpa.getType() == WallpostAttachmentType.POLL) {
-            curText = wpa.getPoll().getQuestion();
-        }
-
-        if (maxPhoto != null) {
-            try {
-                outImage.setIcon(makeThumbnail(new ImageIcon(new URL(maxPhoto)), size.width, size.height));
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        outText.setText(curText);
+        PostFullParser parser = new PostFullParser(postFull);
+        postText.setText(parser.getText());
+        String photoLink = parser.getPhotoLink();
+        if (photoLink != null)
+            setImageByURL(postImage, photoLink, postPhotoWidth, postPhotoHeight);
     }
 
     public void updatePanel(GroupFull groupFull) { //PANEL
-        if (groupFull.getPhoto200() != null) {
-            try {
-                groupImage.setIcon(makeThumbnail(new ImageIcon(new URL(groupFull.getPhoto200())),
-                        GUI.getInstance().getWidth(), groupPhotoHeight));
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-        }
+        if (groupFull.getPhoto200() != null)
+            setImageByURL(groupImage, groupFull.getPhoto200(), GUI.getInstance().getWidth(), groupPhotoHeight);
         groupName.setText(groupFull.getName());
         groupLabel.setText(groupFull.getMembersCount() + " участников");
         groupId = groupFull.getId();
     }
 
-    public void updatePanel(GroupFull groupFull, WallpostFull postFull) { //Popup
-
+    public void updatePanel(GroupFull groupFull, WallpostFull postFull) { //POPUP
         Dimension size = new Dimension(GUI.getInstance().getWidth(), groupPhotoHeight);
 
-        if (postFull.getCopyHistory() != null && postFull.getCopyHistory().size() > 0)
-            parseWallPost(postFull.getCopyHistory().get(0), postFull.getText(), postText, groupImage, size);
-        else {
-            if (postFull.getAttachments() != null)
-                attachmentsParse(postFull.getAttachments().get(0), postFull.getText(), postText, groupImage, size);
-            else {
-                postText.setText(postFull.getText());
-            }
-        }
-
-        if (groupImage.getIcon() == null) {
-            if (groupFull.getPhoto200() != null) {
-                try {
-                    groupImage.setIcon(makeThumbnail(new ImageIcon(new URL(groupFull.getPhoto200())),
-                            size.width, size.height));
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        PostFullParser parser = new PostFullParser(postFull);
+        postText.setText(parser.getText());
+        String photoLink = parser.getPhotoLink();
+        if (photoLink != null)
+            setImageByURL(groupImage, groupFull.getPhoto200(), size.width, size.height);
+        else if (groupFull.getPhoto200() != null)
+            setImageByURL(groupImage, groupFull.getPhoto200(), size.width, size.height);
 
         groupName.setText(groupFull.getName());
         groupLabel.setText(convertTime(postFull.getDate()));
@@ -273,17 +180,22 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
 
     public void updatePanel(UserXtrCounters userXtrCounters) { //PROFILE
         if (userXtrCounters != null) {
-            if (userXtrCounters.getPhotoMaxOrig() != null) {
-                try {
-                    groupImage.setIcon(makeThumbnail(new ImageIcon(new URL(userXtrCounters.getPhotoMaxOrig())), groupPhotoWidth, groupPhotoHeight));
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-            }
+            if (userXtrCounters.getPhotoMaxOrig() != null)
+                setImageByURL(groupImage, userXtrCounters.getPhotoMaxOrig(), groupPhotoWidth, groupPhotoHeight);
             String userName = userXtrCounters.getFirstName() + " " + userXtrCounters.getLastName();
             groupName.setText(userName);
             settings.setUserName(userName);
             groupLabel.setText(userXtrCounters.getId() + "");
+        }
+    }
+
+    private void setImageByURL(JLabel label, String url, int width, int height) {
+        try {
+            ImageIconWrapper iiw = new ImageIconWrapper(new URL(url));
+            iiw.setSize(width, height);
+            label.setIcon(iiw);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -406,71 +318,6 @@ public class PanelConstructor implements Comparable<PanelConstructor> {
     public void setPopupMouseListener(MouseListener popupMouseListener) {
         postText.addMouseListener(popupMouseListener);
         mainPanel.addMouseListener(popupMouseListener);
-    }
-
-    private String getMaxPreview(Photo photo) {
-        String str = null;
-        if (photo != null) {
-            if (photo.getPhoto75() != null) str = photo.getPhoto75();
-            if (photo.getPhoto130() != null) str = photo.getPhoto130();
-            if (photo.getPhoto604() != null) str = photo.getPhoto604();
-            if (photo.getPhoto807() != null) str = photo.getPhoto807();
-            if (photo.getPhoto1280() != null) str = photo.getPhoto1280();
-            if (photo.getPhoto2560() != null) str = photo.getPhoto2560();
-        }
-        return str;
-    }
-
-    private String getMaxPreview(Video video) {
-        String str = null;
-        if (video != null) {
-            if (video.getPhoto130() != null) str = video.getPhoto130();
-            if (video.getPhoto320() != null) str = video.getPhoto320();
-            if (video.getPhoto800() != null) str = video.getPhoto800();
-        }
-        return str;
-    }
-
-    private String getMaxPreview(Graffiti graffiti) {
-        String str = null;
-        if (graffiti != null) {
-            if (graffiti.getPhoto200() != null) str = graffiti.getPhoto200();
-            if (graffiti.getPhoto586() != null) str = graffiti.getPhoto586();
-        }
-        return str;
-    }
-
-    private String getMaxPreview(Doc doc) {
-        String str = null;
-        if (doc != null) {
-            if (doc.getPreview().getPhoto().getSizes() != null) {
-                List<PhotoSizes> sizes = doc.getPreview().getPhoto().getSizes();
-                for (PhotoSizes size : sizes) {
-                    str = size.getSrc();
-                }
-            }
-        }
-        return str;
-    }
-
-    public static ImageIcon makeThumbnail(ImageIcon icon, int width, int height) {
-        if (width < 0 || height < 0) throw new IllegalArgumentException("Width or height less zero");
-        Dimension dimension = getNewDimension(icon.getIconWidth(), icon.getIconHeight(), width, height);
-        return new ImageIcon(icon.getImage().getScaledInstance(dimension.width, dimension.height, Image.SCALE_SMOOTH));
-    }
-
-    private static Dimension getNewDimension(int sWidth, int sHeight, int width, int height) {
-        int x, y;
-        double a = (double) sWidth / (double) sHeight;
-        double b = (double) width / (double) height;
-        if (a > b) {
-            x = width;
-            y = (int) ((double) width / a);
-        } else {
-            x = (int) (height * a);
-            y = height;
-        }
-        return new Dimension(x, y);
     }
 
     private String convertTime(long unixSeconds) {

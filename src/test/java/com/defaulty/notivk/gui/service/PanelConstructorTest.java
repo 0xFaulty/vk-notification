@@ -30,18 +30,19 @@ public class PanelConstructorTest {
     @Test
     public void makeThumbnailTest() throws Exception {
         InputStream is = Main.class.getClassLoader().getResourceAsStream("update.png");
-        ImageIcon icon = PanelConstructor.makeThumbnail(new ImageIcon(ImageIO.read(is)), 150, 150);
-        PanelConstructor.makeThumbnail(icon, 11, 11);
+        ImageIconWrapper iiw = new ImageIconWrapper(new ImageIcon(ImageIO.read(is)));
+        iiw.setSize(150, 150);
+        iiw.setSize(11, 11);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void makeThumbnailZeroOrLessTest() throws Exception {
         InputStream is = Main.class.getClassLoader().getResourceAsStream("update.png");
-        ImageIcon icon = PanelConstructor.makeThumbnail(new ImageIcon(ImageIO.read(is)), 150, 150);
-        PanelConstructor.makeThumbnail(icon, 0, 0);
-        PanelConstructor.makeThumbnail(icon, 0, -1);
-        PanelConstructor.makeThumbnail(icon, -1, 0);
-        PanelConstructor.makeThumbnail(icon, -1, -1);
+        ImageIconWrapper iiw = new ImageIconWrapper(new ImageIcon(ImageIO.read(is)));
+        iiw.setSize(0, 0);
+        iiw.setSize(0, -1);
+        iiw.setSize(-1, 0);
+        iiw.setSize(-1, -1);
     }
 
     @Test

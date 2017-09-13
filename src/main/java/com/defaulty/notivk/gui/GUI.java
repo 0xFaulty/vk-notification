@@ -15,7 +15,6 @@ import com.defaulty.notivk.gui.service.PanelConstructor;
 import com.defaulty.notivk.gui.service.PostPanelController;
 import com.vk.api.sdk.objects.groups.GroupFull;
 import com.vk.api.sdk.objects.wall.responses.GetResponse;
-import javafx.application.Application;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -58,6 +57,7 @@ public class GUI extends JFrame {
 
     private GUI() {
         super("NotifyVK v0.4");
+        System.setProperty("sun.awt.noerasebackground", "true");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
@@ -267,10 +267,9 @@ public class GUI extends JFrame {
 
     public void profileClick() {
         if (settings.isUserDataSet()) {
-            int dialogResult = JOptionPane.showConfirmDialog(
-                    null,
-                    "Выйти из профиля '" + settings.getUserName() + "'?", "Предупреждение",
-                    JOptionPane.YES_NO_OPTION);
+            int dialogResult = JOptionPane.showConfirmDialog(null,
+                    "Выйти из профиля '" + settings.getUserName() + "'?",
+                    "Предупреждение", JOptionPane.YES_NO_OPTION);
             if (dialogResult == JOptionPane.YES_OPTION) {
                 leftMenu.removeAll();
                 openBrowser();
