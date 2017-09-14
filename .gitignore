@@ -1,2 +1,4 @@
 .idea/
+target/
 notivk.iml
+test_settings.xml
